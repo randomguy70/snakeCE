@@ -27,6 +27,7 @@ struct snake {
 void initialiseSnake(void);
 void drawSnake(void);
 void moveSnake(void);
+void growSnake(void);
 bool snakeDied(void);
 
 void initialiseApple(void);
@@ -47,24 +48,22 @@ int main(void) {
 	initialiseApple();
 	
 	while(true) {
+		
 		kb_Scan();
 		if(kb_IsDown(kb_KeyClear))
 			break;
+			
 		gfx_SetDraw(gfx_buffer);
 		gfx_ZeroScreen();
-		gfx_SetTextFGColor(WHITE);
-		gfx_SetTextXY(10, 10);
-		gfx_PrintInt(snake.length, 1);
 		drawSnake();
 		drawPoint(&apple);
 		gfx_SwapDraw();
 		
 		if(foundApple()) {
-			snake.length++;
-			snake.points[snake.length] = snake.points[snake.length-1];
+			growSnake();
 		}
 		if(snakeDied()) {
-			break;
+			// break;
 		}
 		
 		handlePresses();
@@ -98,9 +97,11 @@ void drawSnake(void) {
 }
 
 void moveSnake(void) {
-	for(int i=1; i<snake.length; i++) {
-		snake.points[i] = snake.points[i-1]; 
+	// oh yea. inversed array looping
+	for(int i=snake.length; i>0; i--) {
+		snake.points[i-1] = snake.points[i-1]; 
 	}
+	
 	if(snake.direction == DIR_RIGHT) {
 		snake.points[0].x+=SPEED;
 		if(snake.points[0].x > LCD_WIDTH) {
@@ -126,6 +127,11 @@ void moveSnake(void) {
 		}
 	}
 	
+}
+
+void growSnake(void) {
+	snake.length++;
+	moveSnake();
 }
 
 void drawPoint(struct point* point) {
