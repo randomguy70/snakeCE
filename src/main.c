@@ -61,6 +61,7 @@ int main(void) {
 		
 		if(foundApple()) {
 			growSnake();
+			initialiseApple();
 		}
 		if(snakeDied()) {
 			break;
@@ -133,7 +134,7 @@ void moveSnake(void) {
 
 void growSnake(void) {
 	snake.length++;
-	moveSnake();
+	snake.points[snake.length-1] = snake.points[snake.length-2];
 }
 
 void drawPoint(struct point* point) {
