@@ -49,6 +49,7 @@ int main(void) {
 		drawSnake(&snake);
 		gfx_SwapDraw();
 		
+		checkForAppleCollision(&snake, &apple);
 		updateSnake(&snake);
 		
 		kb_Scan();
