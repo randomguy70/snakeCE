@@ -27,8 +27,10 @@ struct snake {
 void initialiseSnake(void);
 void drawSnake(void);
 void moveSnake(void);
+bool snakeDied(void);
 
 void initialiseApple(void);
+bool foundApple(void);
 
 void drawPoint(struct point* point);
 void handlePresses(void);
@@ -53,6 +55,14 @@ int main(void) {
 		drawSnake();
 		drawPoint(&apple);
 		gfx_SwapDraw();
+		
+		if(foundApple()) {
+			snake.length++;
+			snake.points[snake.length] = snake.points[snake.length-1];
+		}
+		if(snakeDied()) {
+			break;
+		}
 		
 		handlePresses();
 		moveSnake();
@@ -132,4 +142,17 @@ void handlePresses(void) {
 	if(kb_IsDown(kb_KeyLeft) && snake.direction!=DIR_RIGHT) {
 		snake.direction = DIR_LEFT;
 	}
+}
+
+bool foundApple(void) {
+	return (snake.points[0].x == apple.x && snake.points[0].y == apple.y);
+}
+
+bool snakeDied(void) {
+	for(int i=1; i<snake.length; i++) {
+		if(snake.points[0].x == snake.points[i].x && snake.points[0].y == snake.points[i].y) {
+			return true;
+		}
+	}
+	return false;
 }
