@@ -2,9 +2,10 @@
 #include <graphx.h>
 #include <keypadc.h>
 
-#define SPEED 2
 #define POINT_SIZE 4
-#define STARTING_SNAKE_LEN 10
+#define SPEED POINT_SIZE
+#define STARTING_SNAKE_LEN 20
+#define STARTING_DIRECTION 4
 
 struct point {
 	uint32_t x, y;
@@ -22,13 +23,17 @@ struct snake {
 };
 
 static void initialiseGame(struct snake* snake, struct point* apple);
+static void initialiseSnake(struct snake* snake);
 static void drawSnake(struct snake* snake);
 static void updateSnake(struct snake* snake);
 static void addSnakePoint(struct snake* snake);
+static void initialiseApple(struct point* apple);
+static void drawApple(struct point* apple);
+
 static void fillPoint(struct point* point);
 static void outlinePoint(struct point* point);
 static void erasePoint(struct point* point);
-static void drawApple(struct point* point);
+
 bool checkForDeath(struct snake* snake);
 bool checkForAppleCollision(struct snake* snake, struct point* apple);
 
@@ -53,6 +58,7 @@ int main(void) {
 		if(checkForAppleCollision(&snake, &apple)) {
 			addSnakePoint(&snake);
 		}
+		
 		updateSnake(&snake);
 		
 		kb_Scan();
@@ -60,6 +66,7 @@ int main(void) {
 		if(kb_IsDown(kb_KeyClear)) {
 			break;
 		}
+		
 		if(kb_IsDown(kb_KeyDown) && snake.direction != DIR_UP) {
 			snake.direction = DIR_DOWN;
 		}
@@ -82,22 +89,29 @@ static void initialiseGame(struct snake* snake, struct point* apple) {
 	gfx_Begin();
 	srandom(rtc_Time());
 	
-	apple->x = randInt(1, LCD_WIDTH-POINT_SIZE);
-	apple->y = randInt(1, LCD_HEIGHT-POINT_SIZE);
-	
-	snake->length = STARTING_SNAKE_LEN;
-	snake->direction = DIR_DOWN;
-	
-	for(uint32_t i=0; i<snake->length; i++) {
-		snake->points[i].x = LCD_WIDTH/2;
-		snake->points[i].y = (i*POINT_SIZE)+50;
-		snake->points[i].color = 255;
-	}
+	initialiseApple(apple);
+	initialiseSnake(snake);
 	
 	return;
 }
 
-// draws the full snake point by point
+static void initialiseSnake(struct snake* snake) {
+	snake->length = STARTING_SNAKE_LEN;
+	snake->direction = STARTING_DIRECTION;
+	
+	if(snake->direction == DIR_DOWN) {
+		for(uint32_t i=0; i<snake->length; i++) {
+			snake->points[i].x = 1+(20*POINT_SIZE);
+			snake->points[i].y = 1+(i*POINT_SIZE);
+		}
+	}
+	for(uint32_t i=0; i<snake->length; i++) {
+		snake->points[i].x = LCD_WIDTH/2;
+		snake->points[i].y = (i+1)*POINT_SIZE;
+	}
+}
+
+// draws the full snake
 static void drawSnake(struct snake* snake) {
 	for(uint32_t i=0; i<snake->length; i++) {
 		fillPoint(&(snake->points[i]));
@@ -105,7 +119,7 @@ static void drawSnake(struct snake* snake) {
 	return;
 }
 
-// shifts the points
+// shifts the snake's points
 static void updateSnake(struct snake* snake) {
 	uint32_t i;
 	
@@ -169,9 +183,16 @@ bool checkForAppleCollision(struct snake* snake, struct point* apple) {
 	return false;
 }
 
-static void drawApple(struct point* point) {
-	fillPoint(point);
-	outlinePoint(point);
+static void drawApple(struct point* apple) {
+	fillPoint(apple);
+	outlinePoint(apple);
+}
+
+static void initialiseApple(struct point* apple) {
+	apple->x = randInt(1, LCD_WIDTH/POINT_SIZE);
+	apple->x *= POINT_SIZE;
+	apple->y = randInt(1, LCD_HEIGHT/POINT_SIZE);
+	apple->y *= POINT_SIZE;
 }
 
 static void fillPoint(struct point* point) {
