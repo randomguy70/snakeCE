@@ -98,8 +98,10 @@ void drawSnake(void) {
 
 void moveSnake(void) {
 	// oh yea. inversed array looping
-	for(int i=snake.length; i>0; i--) {
-		snake.points[i-1] = snake.points[i-1]; 
+	// p-p-p-p-p-p-p-p-p
+	// start here -----^
+	for(int i=snake.length-1; i>0; i--) {
+		snake.points[i] = snake.points[i-1];
 	}
 	
 	if(snake.direction == DIR_RIGHT) {
