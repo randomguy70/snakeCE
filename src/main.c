@@ -7,7 +7,7 @@
 
 #define POINT_SIZE 4
 #define SPEED POINT_SIZE
-#define STARTING_SNAKE_LEN 20
+#define STARTING_SNAKE_LEN 30
 #define STARTING_DIRECTION 4
 
 struct point {
@@ -63,7 +63,7 @@ int main(void) {
 			growSnake();
 		}
 		if(snakeDied()) {
-			// break;
+			break;
 		}
 		
 		handlePresses();
@@ -79,8 +79,8 @@ void initialiseSnake(void) {
 	snake.direction = DIR_RIGHT;
 	
 	for(int i=0; i<STARTING_SNAKE_LEN; i++) {
-		snake.points[i].x = i*POINT_SIZE;
-		snake.points[i].y = 1;
+		snake.points[i].x = 100 - (i*POINT_SIZE);
+		snake.points[i].y = 0;
 	}
 }
 
@@ -98,8 +98,8 @@ void drawSnake(void) {
 
 void moveSnake(void) {
 	// oh yea. inversed array looping
-	// p-p-p-p-p-p-p-p-p
-	// start here -----^
+	// o-o-o-o-o-o-o-o-o
+	// start here------^
 	for(int i=snake.length-1; i>0; i--) {
 		snake.points[i] = snake.points[i-1];
 	}
