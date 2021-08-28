@@ -52,6 +52,9 @@ int main(void) {
 			break;
 		gfx_SetDraw(gfx_buffer);
 		gfx_ZeroScreen();
+		gfx_SetTextFGColor(WHITE);
+		gfx_SetTextXY(10, 10);
+		gfx_PrintInt(snake.length, 1);
 		drawSnake();
 		drawPoint(&apple);
 		gfx_SwapDraw();
@@ -106,13 +109,13 @@ void moveSnake(void) {
 	}
 	if(snake.direction == DIR_LEFT) {
 		snake.points[0].x-=SPEED;
-		if(snake.points[0].x < 1) {
+		if(snake.points[0].x < 0) {
 			snake.points[0].x = LCD_WIDTH-POINT_SIZE;
 		}
 	}
 	if(snake.direction == DIR_UP) {
 		snake.points[0].y-=SPEED;
-		if(snake.points[0].y < 1) {
+		if(snake.points[0].y < 0) {
 			snake.points[0].y = LCD_HEIGHT-POINT_SIZE;
 		}
 	}
