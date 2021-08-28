@@ -24,6 +24,7 @@ struct snake {
 static void initialiseGame(struct snake* snake, struct point* apple);
 static void drawSnake(struct snake* snake);
 static void updateSnake(struct snake* snake);
+static void addSnakePoint(struct snake* snake);
 static void fillPoint(struct point* point);
 static void outlinePoint(struct point* point);
 static void erasePoint(struct point* point);
@@ -49,24 +50,26 @@ int main(void) {
 		drawSnake(&snake);
 		gfx_SwapDraw();
 		
-		checkForAppleCollision(&snake, &apple);
+		if(checkForAppleCollision(&snake, &apple)) {
+			addSnakePoint(&snake);
+		}
 		updateSnake(&snake);
 		
 		kb_Scan();
 		
-		if(kb_IsDown(kb_KeyClear)){
+		if(kb_IsDown(kb_KeyClear)) {
 			break;
 		}
-		if(kb_IsDown(kb_KeyDown)) {
+		if(kb_IsDown(kb_KeyDown) && snake.direction != DIR_UP) {
 			snake.direction = DIR_DOWN;
 		}
-		if(kb_IsDown(kb_KeyUp)) {
+		if(kb_IsDown(kb_KeyUp) && snake.direction != DIR_DOWN) {
 			snake.direction = DIR_UP;
 		}
-		if(kb_IsDown(kb_KeyRight)) {
+		if(kb_IsDown(kb_KeyRight) && snake.direction != DIR_LEFT) {
 			snake.direction = DIR_RIGHT;
 		}
-		if(kb_IsDown(kb_KeyLeft)) {
+		if(kb_IsDown(kb_KeyLeft) && snake.direction != DIR_RIGHT) {
 			snake.direction = DIR_LEFT;
 		}
 	}
@@ -140,6 +143,12 @@ static void updateSnake(struct snake* snake) {
 			break;
 	}
 	
+	return;
+}
+
+static void addSnakePoint(struct snake* snake) {
+	snake->length++;
+	snake->points[snake->length] = snake->points[snake->length-1];
 	return;
 }
 
