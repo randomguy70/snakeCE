@@ -34,8 +34,7 @@ bool checkForAppleCollision(struct snake* snake, struct point* apple);
 int main(void) {
 	struct point apple;
 	struct snake snake;
-	kb_key_t key;
-	
+		
 	initialiseGame(&snake, &apple);
 	gfx_SetDraw(gfx_buffer);
 	gfx_ZeroScreen();
@@ -53,35 +52,10 @@ int main(void) {
 		updateSnake(&snake);
 		
 		kb_Scan();
-		key = kb_Data[7];
 		
-		if(kb_IsDown(kb_KeyClear))
+		if(kb_IsDown(kb_KeyClear)){
 			break;
-		
-		/*
-		if (key) {
-			switch (key) {
-				case kb_Down:
-						snake.direction = DIR_DOWN;
- 						break;
-				
-				case kb_Right:
-					snake.direction = DIR_RIGHT;
-					break;
-				
-				case kb_Up:
-					snake.direction = DIR_UP;
-					break;
-				
-				case kb_Left:
-					snake.direction = DIR_LEFT;
-					break;
-				
-				default:
-					break;
-			}
 		}
-			*/
 		if(kb_IsDown(kb_KeyDown)) {
 			snake.direction = DIR_DOWN;
 		}
