@@ -1,6 +1,7 @@
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <string.h>
 
 #include "gfx/gfx.h"
 
@@ -50,10 +51,13 @@ void drawPoint(struct point* point);
 void handlePresses(void);
 
 uint8_t updateShade(void);
+void printColoredString(char* string, int x, int y);
 
 struct snake snake;
 struct point apple;
 enum color color = START_OF_SHADES;
+
+int menu(void);
 
 int main(void) {
 	srand(rtc_Time());
@@ -206,7 +210,7 @@ bool snakeDied(void) {
 	return false;
 }
 
-void menu(void) {
+int menu(void) {
 	int width = 100;
 	int height = 70;
 	const char* header = "You died, unfortunately.";
@@ -230,6 +234,14 @@ void menu(void) {
 	
 	while(true) {
 		kb_Scan();
+		if(kb_IsDown(kb_KeyClear)) {
+			return 0;
+		}
+		if(kb_IsDown(kb_KeyEnter) || kb_IsDown(kb_Key2nd)) {
+			initialiseSnake();
+			initialiseApple();
+			return 1;
+		}
 	}
 }
 
@@ -238,4 +250,12 @@ uint8_t updateShade(void) {
 	if(++color > END_OF_SHADES)
 		color = START_OF_SHADES;
 	return prevColor;
+}
+
+void printColoredString(char* string, int x, int y) {
+	gfx_SetTextXY(x, y);
+	for(int i=0; i<strlen(string); i++) {
+		gfx_SetColor(updateShade());
+		gfx_PrintChar(string[i]);
+	}
 }
