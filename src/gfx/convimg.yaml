@@ -3,11 +3,10 @@ palettes:
     images: automatic
     fixed-entries:
       - image: palette.png
+      - color: {index:  0, r: 0x00, g: 0x00, b: 0x00} # black
 converts:
   - name: myimages
     palette: palette
-    images:
-      - palette.png
 outputs:
   - type: c
     include-file: gfx.h
