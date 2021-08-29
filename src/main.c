@@ -16,6 +16,7 @@
 
 struct point {
 	int x, y;
+	uint8_t color;
 };
 
 typedef enum {
@@ -56,11 +57,16 @@ int main(void) {
 		kb_Scan();
 		if(kb_IsDown(kb_KeyClear))
 			break;
-			
+		
 		gfx_SetDraw(gfx_buffer);
 		gfx_ZeroScreen();
 		drawSnake();
 		drawPoint(&apple);
+		gfx_SetTextFGColor(WHITE);
+		gfx_SetTextXY(1, 1);
+		gfx_PrintInt(apple.x, 3);
+		gfx_SetTextXY(40, 1);
+		gfx_PrintInt(apple.y, 3);
 		gfx_SwapDraw();
 		
 		if(foundApple()) {
@@ -90,8 +96,8 @@ void initialiseSnake(void) {
 }
 
 void initialiseApple(void) {
-	apple.x = POINT_SIZE*randInt(XMIN, XMAX) - POINT_SIZE;
-	apple.y = POINT_SIZE*randInt(YMIN, YMAX) - POINT_SIZE;
+	apple.x = POINT_SIZE*randInt(0, LCD_WIDTH/POINT_SIZE);
+	apple.y = POINT_SIZE*randInt(0, LCD_HEIGHT/POINT_SIZE);
 }
 
 void drawSnake(void) {
