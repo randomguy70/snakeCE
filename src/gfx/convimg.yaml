@@ -4,6 +4,7 @@ palettes:
     fixed-entries:
       - image: palette.png
       - color: {index:  0, r: 0x00, g: 0x00, b: 0x00} # black
+      - color: {index:  1, r: 0x94, g: 0x94, b: 0x94} # grey
 converts:
   - name: myimages
     palette: palette

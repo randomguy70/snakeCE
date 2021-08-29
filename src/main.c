@@ -14,10 +14,12 @@
 #define YMIN 0
 #define YMAX LCD_HEIGHT-POINT_SIZE
 
+#define SAVE_APPVAR "SNKSAVE"
+#define SCORE_APPVAR "SNKSCORE"
+
 enum color {
-	BLACK = 0,
-	START_OF_SHADES = 1,
-	END_OF_SHADES = 253,
+	BLACK = 0, GREY = 1,
+	START_OF_SHADES = 2, END_OF_SHADES = 253,
 };
 
 struct point {
@@ -208,16 +210,16 @@ void menu(void) {
 	int width = 100;
 	int height = 70;
 	const char* header = "You died, unfortunately.";
-	const char* choiceOne = "Again!";
-	const char* choiceTwo = "Quit";
+	const char* choiceOne = "Again! - Enter";
+	const char* choiceTwo = "Quit - Clear";
 	
 	gfx_SetDraw(gfx_buffer);
 	
 	// body
-	// gfx_SetColor(MED_GREY);
+	gfx_SetColor(BLACK);
 	gfx_FillRectangle_NoClip(LCD_WIDTH/2-width/2, LCD_HEIGHT/2-height/2, width, height);
 	// outline
-	// gfx_SetColor(NEON_ORANGE);
+	gfx_SetColor(GREY);
 	gfx_Rectangle_NoClip(LCD_WIDTH/2-width/2, LCD_HEIGHT/2-height/2, width, height);
 	
 	// text
@@ -225,7 +227,10 @@ void menu(void) {
 	gfx_PrintStringXY(choiceOne, LCD_WIDTH/2-gfx_GetStringWidth(choiceOne)/2, LCD_HEIGHT/2-height/2 + 2+20);
 	gfx_PrintStringXY(choiceTwo, LCD_WIDTH/2-gfx_GetStringWidth(choiceTwo)/2, LCD_HEIGHT/2-height/2 + 2+40);
 	gfx_SwapDraw();
-	while(!os_GetCSC());
+	
+	while(true) {
+		kb_Scan();
+	}
 }
 
 uint8_t updateShade(void) {
