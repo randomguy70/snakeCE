@@ -3,7 +3,6 @@
 #include <keypadc.h>
 
 #include "gfx/gfx.h"
-#include <colors.h>
 
 #define POINT_SIZE 4
 #define SPEED POINT_SIZE
@@ -15,8 +14,8 @@
 #define YMAX LCD_HEIGHT-POINT_SIZE
 
 enum color {
-	BLACK,
-	START_OF_SHADES,
+	BLACK = 0,
+	START_OF_SHADES = 0,
 	END_OF_SHADES = 253,
 };
 
@@ -106,7 +105,6 @@ void initialiseApple(void) {
 }
 
 void drawSnake(void) {
-	gfx_SetColor(WHITE);
 	for(int i=0; i<snake.length; i++) {
 		drawPoint(&snake.points[i]);
 	}
@@ -157,12 +155,13 @@ void growSnake(void) {
 }
 
 void drawPoint(struct point* point) {
+	gfx_SetColor(point->color);
 	gfx_FillRectangle(point->x, point->y, POINT_SIZE, POINT_SIZE);
 }
 
 void erasePoint(struct point* point) {
 	gfx_SetColor(BLACK);
-	gfx_FillRectangleNoClip(point->x, point->y, POINT_SIZE, POINT_SIZE);
+	gfx_FillRectangle_NoClip(point->x, point->y, POINT_SIZE, POINT_SIZE);
 }
 
 void handlePresses(void) {
@@ -201,11 +200,12 @@ void menu(void) {
 	const char* choiceTwo = "Quit";
 	
 	gfx_SetDraw(gfx_buffer);
+	
 	// body
-	gfx_SetColor(MED_GREY);
+	// gfx_SetColor(MED_GREY);
 	gfx_FillRectangle_NoClip(LCD_WIDTH/2-width/2, LCD_HEIGHT/2-height/2, width, height);
 	// outline
-	gfx_SetColor(NEON_ORANGE);
+	// gfx_SetColor(NEON_ORANGE);
 	gfx_Rectangle_NoClip(LCD_WIDTH/2-width/2, LCD_HEIGHT/2-height/2, width, height);
 	
 	// text
