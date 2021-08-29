@@ -5,8 +5,11 @@
 extern "C" {
 #endif
 
-#define sizeof_palette 14
-extern unsigned char palette[14];
+#define palette_width 255
+#define palette_height 1
+#define palette_size 257
+#define palette ((gfx_sprite_t*)palette_data)
+extern unsigned char palette_data[257];
 
 #ifdef __cplusplus
 }

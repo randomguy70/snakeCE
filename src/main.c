@@ -47,7 +47,7 @@ struct point apple;
 int main(void) {
 	srand(rtc_Time());
 	gfx_Begin();
-	gfx_SetPalette(palette, sizeof_palette, 0);
+	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	
 	initialiseSnake();
 	initialiseApple();
@@ -146,6 +146,11 @@ void growSnake(void) {
 
 void drawPoint(struct point* point) {
 	gfx_FillRectangle(point->x, point->y, POINT_SIZE, POINT_SIZE);
+}
+
+void erasePoint(struct point* point) {
+	gfx_SetColor(BLACK);
+	gfx_FillRectangleNoClip(point->x, point->y, POINT_SIZE, POINT_SIZE);
 }
 
 void handlePresses(void) {

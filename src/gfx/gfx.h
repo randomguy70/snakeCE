@@ -7,7 +7,7 @@ extern "C" {
 
 #include "palette.h"
 #define myimages_palette_offset 0
-#include "random_png.h"
+#include "palette.h"
 
 #ifdef __cplusplus
 }

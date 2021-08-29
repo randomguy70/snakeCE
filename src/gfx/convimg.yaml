@@ -3,15 +3,11 @@ palettes:
     images: automatic
     fixed-entries:
     - color: {index: 0, r: 0x00, g: 0x00, b: 0x00}   # black
-    - color: {index: 1, r: 0xff, g: 0xff, b: 0xff}   # white
-    - color: {index: 2, r: 0xff, g: 0x00, b: 0x80}   # transparent color
-    - color: {index: 3, r: 0xff, g: 0x88, b: 0x00}   # neon orange
-    - color: {index: 4, r: 0x66, g: 0x6b, b: 0x6c}   # medium grey
 converts:
   - name: myimages
     palette: palette
     images:
-      - random_png.png
+      - palette.png
 outputs:
   - type: c
     include-file: gfx.h
