@@ -14,6 +14,12 @@
 #define YMIN 0
 #define YMAX LCD_HEIGHT-POINT_SIZE
 
+enum color {
+	BLACK,
+	START_OF_SHADES,
+	END_OF_SHADES = 253,
+};
+
 struct point {
 	int x, y;
 	uint8_t color;
@@ -41,9 +47,12 @@ bool foundApple(void);
 void drawPoint(struct point* point);
 void handlePresses(void);
 
+uint8_t updateShade(void);
+
 struct snake snake;
 struct point apple;
-	
+enum color color = START_OF_SHADES;
+
 int main(void) {
 	srand(rtc_Time());
 	gfx_Begin();
@@ -87,6 +96,7 @@ void initialiseSnake(void) {
 	for(int i=0; i<STARTING_SNAKE_LEN; i++) {
 		snake.points[i].x = (STARTING_SNAKE_LEN*POINT_SIZE) - (i*POINT_SIZE);
 		snake.points[i].y = YMIN;
+		snake.points[i].color = updateShade();
 	}
 }
 
@@ -136,6 +146,8 @@ void moveSnake(void) {
 			snake.points[0].y = YMIN;
 		}
 	}
+	
+	snake.points[0].color = updateShade();
 	
 }
 
@@ -202,4 +214,11 @@ void menu(void) {
 	gfx_PrintStringXY(choiceTwo, LCD_WIDTH/2-gfx_GetStringWidth(choiceTwo)/2, LCD_HEIGHT/2-height/2 + 2+40);
 	gfx_SwapDraw();
 	while(!os_GetCSC());
+}
+
+uint8_t updateShade(void) {
+	uint8_t prevColor = color;
+	if(++color > END_OF_SHADES)
+		color = START_OF_SHADES;
+	return prevColor;
 }
