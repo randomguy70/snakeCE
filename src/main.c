@@ -4,7 +4,7 @@
 
 #include "gfx/gfx.h"
 
-#define POINT_SIZE 4
+#define POINT_SIZE 5
 #define SPEED POINT_SIZE
 #define STARTING_SNAKE_LEN 20
 #define STARTING_DIRECTION 4
