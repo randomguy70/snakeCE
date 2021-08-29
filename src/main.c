@@ -6,6 +6,7 @@
 
 #define POINT_SIZE 5
 #define SPEED POINT_SIZE
+#define DELAY_TIME 20
 #define STARTING_SNAKE_LEN 20
 #define STARTING_DIRECTION 4
 #define XMIN 0
@@ -82,6 +83,7 @@ int main(void) {
 		
 		handlePresses();
 		moveSnake();
+		delay(DELAY_TIME);
 	}
 	
 	gfx_End();
@@ -100,9 +102,18 @@ void initialiseSnake(void) {
 }
 
 void initialiseApple(void) {
-	apple.x = POINT_SIZE*randInt(XMIN, LCD_WIDTH/POINT_SIZE);
-	apple.y = POINT_SIZE*randInt(YMIN, LCD_HEIGHT/POINT_SIZE);
+	apple.x = POINT_SIZE*randInt(XMIN, LCD_WIDTH/POINT_SIZE-POINT_SIZE);
+	apple.y = POINT_SIZE*randInt(YMIN, LCD_HEIGHT/POINT_SIZE-POINT_SIZE);
 	apple.color = randInt(START_OF_SHADES, END_OF_SHADES);
+	
+	if(apple.x > LCD_WIDTH)
+		apple.x = LCD_WIDTH-POINT_SIZE;
+	if(apple.x < 0)
+		apple.x = 0;
+	if(apple.y > LCD_HEIGHT)
+		apple.y = LCD_HEIGHT-POINT_SIZE;
+	if(apple.y < 0)
+		apple.y = 0;
 }
 
 void drawSnake(void) {
