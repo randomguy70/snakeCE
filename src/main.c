@@ -15,7 +15,7 @@
 
 enum color {
 	BLACK = 0,
-	START_OF_SHADES = 0,
+	START_OF_SHADES = 1,
 	END_OF_SHADES = 253,
 };
 
