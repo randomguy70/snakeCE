@@ -7,7 +7,7 @@
 
 #define POINT_SIZE 4
 #define SPEED POINT_SIZE
-#define STARTING_SNAKE_LEN 30
+#define STARTING_SNAKE_LEN 20
 #define STARTING_DIRECTION 4
 #define XMIN 0
 #define XMAX LCD_WIDTH-POINT_SIZE
@@ -62,11 +62,6 @@ int main(void) {
 		gfx_ZeroScreen();
 		drawSnake();
 		drawPoint(&apple);
-		gfx_SetTextFGColor(WHITE);
-		gfx_SetTextXY(1, 1);
-		gfx_PrintInt(apple.x, 3);
-		gfx_SetTextXY(40, 1);
-		gfx_PrintInt(apple.y, 3);
 		gfx_SwapDraw();
 		
 		if(foundApple()) {
@@ -96,8 +91,8 @@ void initialiseSnake(void) {
 }
 
 void initialiseApple(void) {
-	apple.x = POINT_SIZE*randInt(0, LCD_WIDTH/POINT_SIZE);
-	apple.y = POINT_SIZE*randInt(0, LCD_HEIGHT/POINT_SIZE);
+	apple.x = POINT_SIZE*randInt(XMIN, LCD_WIDTH/POINT_SIZE);
+	apple.y = POINT_SIZE*randInt(YMIN, LCD_HEIGHT/POINT_SIZE);
 }
 
 void drawSnake(void) {
