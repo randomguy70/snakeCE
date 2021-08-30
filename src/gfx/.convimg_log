@@ -1,0 +1,12 @@
+make gfx
+[info] Reading file 'convimg.yaml'
+[warning] Overriding palette index 0 with (0,0,0).
+[warning] Overriding palette index 1 with (94,94,94).
+[info] Generating palette 'palette'
+[warning] Creating palette 'palette' without images
+[info] Generated palette 'palette' with 253 colors (258 unused)
+[info] Generating output for palette 'palette'
+[info]  - Writing 'palette.h'
+[info]  - Writing 'palette.c'
+[info] Generating output for convert 'myimages'
+[info]  - Writing 'gfx.h'

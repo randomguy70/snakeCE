@@ -84,7 +84,11 @@ int main(void) {
 			initialiseApple();
 		}
 		if(snakeDied()) {
-			break;
+			if(menu() == 0) {
+				return 0;
+			}
+			initialiseSnake();
+			initialiseApple();
 		}
 		
 		handlePresses();
@@ -213,9 +217,9 @@ bool snakeDied(void) {
 int menu(void) {
 	int width = 100;
 	int height = 70;
-	const char* header = "You died, unfortunately.";
-	const char* choiceOne = "Again! - Enter";
-	const char* choiceTwo = "Quit - Clear";
+	char* header = "You died, unfortunately.";
+	char* choiceOne = "Again! - Enter";
+	char* choiceTwo = "Quit - Clear";
 	
 	gfx_SetDraw(gfx_buffer);
 	
@@ -227,9 +231,9 @@ int menu(void) {
 	gfx_Rectangle_NoClip(LCD_WIDTH/2-width/2, LCD_HEIGHT/2-height/2, width, height);
 	
 	// text
-	gfx_PrintStringXY(header, LCD_WIDTH/2-gfx_GetStringWidth(header)/2, LCD_HEIGHT/2-height/2 + 2);
-	gfx_PrintStringXY(choiceOne, LCD_WIDTH/2-gfx_GetStringWidth(choiceOne)/2, LCD_HEIGHT/2-height/2 + 2+20);
-	gfx_PrintStringXY(choiceTwo, LCD_WIDTH/2-gfx_GetStringWidth(choiceTwo)/2, LCD_HEIGHT/2-height/2 + 2+40);
+	printColoredString(header, LCD_WIDTH/2-gfx_GetStringWidth(header)/2, LCD_HEIGHT/2-height/2 + 2);
+	printColoredString(choiceOne, LCD_WIDTH/2-gfx_GetStringWidth(choiceOne)/2, LCD_HEIGHT/2-height/2 + 2+20);
+	printColoredString(choiceTwo, LCD_WIDTH/2-gfx_GetStringWidth(choiceTwo)/2, LCD_HEIGHT/2-height/2 + 2+40);
 	gfx_SwapDraw();
 	
 	while(true) {
@@ -254,8 +258,8 @@ uint8_t updateShade(void) {
 
 void printColoredString(char* string, int x, int y) {
 	gfx_SetTextXY(x, y);
-	for(int i=0; i<strlen(string); i++) {
-		gfx_SetColor(updateShade());
+	for(unsigned int i=0; i<strlen(string); i++) {
+		gfx_SetTextFGColor(updateShade());
 		gfx_PrintChar(string[i]);
 	}
 }
