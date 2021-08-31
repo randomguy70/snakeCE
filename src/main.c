@@ -86,6 +86,7 @@ int main(void) {
 		}
 		if(snakeDied()) {
 			if(menu() == 0) {
+				gfx_End();
 				return 0;
 			}
 			initialiseSnake();
@@ -216,12 +217,13 @@ bool snakeDied(void) {
 }
 
 int menu(void) {
-	const int width = 150;
+	const int width = 174;
 	const int height = 100;
 	const int x = LCD_WIDTH/2-width/2;
 	const int y = LCD_HEIGHT/2-height/2;
 	char *txt[] = {"You died, unfortunately.", "Again! - Enter", "Quit - Clear", "Mode - Settings"};
 	const uint8_t numTxtStrings = 4;
+	const uint8_t lineSpacing = 20;
 	
 	gfx_SetDraw(gfx_buffer);
 	
@@ -230,7 +232,7 @@ int menu(void) {
 	
 	for(uint8_t i=0; i<numTxtStrings; i++) {
 		int strX = LCD_WIDTH/2 - gfx_GetStringWidth(txt[i])/2;
-		int strY = y + 1 + i*15;
+		int strY = y + 5 + i*lineSpacing;
 		printColoredString(txt[i], strX, strY);
 	}
 	
