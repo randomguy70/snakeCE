@@ -2,9 +2,7 @@ palettes:
   - name: palette
     images: automatic
     fixed-entries:
-      - image: palette.png
-      - color: {index:  0, r: 0, g: 0, b: 0} # black
-      - color: {index:  1, r: 94, g: 94, b: 94} # grey
+    - image: palette.png
 converts:
   - name: myimages
     palette: palette

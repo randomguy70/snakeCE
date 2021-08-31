@@ -8,7 +8,7 @@
 #define POINT_SIZE 5
 #define SPEED POINT_SIZE
 #define DELAY_TIME 20
-#define STARTING_SNAKE_LEN 20
+#define STARTING_SNAKE_LEN 10
 #define STARTING_DIRECTION 4
 #define XMIN 0
 #define XMAX LCD_WIDTH-POINT_SIZE
@@ -19,8 +19,8 @@
 #define SCORE_APPVAR "SNKSCORE"
 
 enum color {
-	BLACK = 0, GREY = 1,
-	START_OF_SHADES = 2, END_OF_SHADES = 253,
+	BLACK = 253, GREY = 254,
+	START_OF_SHADES = 0, END_OF_SHADES = 252,
 };
 
 struct point {
@@ -74,7 +74,7 @@ int main(void) {
 			break;
 		
 		gfx_SetDraw(gfx_buffer);
-		gfx_ZeroScreen();
+		gfx_FillScreen(BLACK);
 		drawSnake();
 		drawPoint(&apple);
 		gfx_SwapDraw();
