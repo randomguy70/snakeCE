@@ -47,10 +47,11 @@ bool snakeDied(void);
 void initialiseApple(void);
 bool foundApple(void);
 
-void drawPoint(struct point* point);
 void handlePresses(void);
 
 uint8_t updateShade(void);
+void drawPoint(struct point* point);
+void thickRectangle(int x, int y, int width, int height, uint8_t thickness);
 void printColoredString(char* string, int x, int y);
 
 struct snake snake;
@@ -215,25 +216,24 @@ bool snakeDied(void) {
 }
 
 int menu(void) {
-	int width = 100;
-	int height = 70;
-	char* header = "You died, unfortunately.";
-	char* choiceOne = "Again! - Enter";
-	char* choiceTwo = "Quit - Clear";
+	const int width = 150;
+	const int height = 100;
+	const int x = LCD_WIDTH/2-width/2;
+	const int y = LCD_HEIGHT/2-height/2;
+	char *txt[] = {"You died, unfortunately.", "Again! - Enter", "Quit - Clear", "Mode - Settings"};
+	const uint8_t numTxtStrings = 4;
 	
 	gfx_SetDraw(gfx_buffer);
 	
-	// body
-	gfx_SetColor(BLACK);
-	gfx_FillRectangle_NoClip(LCD_WIDTH/2-width/2, LCD_HEIGHT/2-height/2, width, height);
-	// outline
-	gfx_SetColor(GREY);
-	gfx_Rectangle_NoClip(LCD_WIDTH/2-width/2, LCD_HEIGHT/2-height/2, width, height);
+	gfx_SetColor(BLACK); gfx_FillRectangle_NoClip(x, y, width, height);
+	gfx_SetColor(GREY);  thickRectangle(x, y, width, height, 3);
 	
-	// text
-	printColoredString(header, LCD_WIDTH/2-gfx_GetStringWidth(header)/2, LCD_HEIGHT/2-height/2 + 2);
-	printColoredString(choiceOne, LCD_WIDTH/2-gfx_GetStringWidth(choiceOne)/2, LCD_HEIGHT/2-height/2 + 2+20);
-	printColoredString(choiceTwo, LCD_WIDTH/2-gfx_GetStringWidth(choiceTwo)/2, LCD_HEIGHT/2-height/2 + 2+40);
+	for(uint8_t i=0; i<numTxtStrings; i++) {
+		int strX = LCD_WIDTH/2 - gfx_GetStringWidth(txt[i])/2;
+		int strY = y + 1 + i*15;
+		printColoredString(txt[i], strX, strY);
+	}
+	
 	gfx_SwapDraw();
 	
 	while(true) {
@@ -261,5 +261,11 @@ void printColoredString(char* string, int x, int y) {
 	for(unsigned int i=0; i<strlen(string); i++) {
 		gfx_SetTextFGColor(updateShade());
 		gfx_PrintChar(string[i]);
+	}
+}
+
+void thickRectangle(int x, int y, int width, int height, uint8_t thickness) {
+	for(uint8_t i=0; i<thickness; i++) {
+		gfx_Rectangle_NoClip(x+i, y+i, width-2*i, height-2*i);
 	}
 }
