@@ -9,11 +9,7 @@
 extern struct snake snake;
 extern struct point apple;
 extern enum color color;
-
-/* prototypes */
-void handlePresses(void);
-int menu(void);
-int displaySettings();
+extern struct settings settings;
 
 
 #endif

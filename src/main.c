@@ -11,13 +11,16 @@
 #include "graphics.h"
 #include "entities.h"
 
-#define SAVE_APPVAR     "SNKSAVE"
-#define SCORE_APPVAR    "SNKSCORE"
+/* define globals (declared in main.h). And yes, this is horrible code, but it's snake, and it's my first time making snake, so give me a break! :P */
+struct snake     snake;
+struct point     apple;
+enum   color     color;
+struct settings  settings;
 
-/* define globals (already declared). And yes, this is horrible code, but it's my first time making snake, so give me a break! :P */
-struct snake snake;
-struct point apple;
-enum color color;
+/* prototypes */
+void handlePresses(void);
+int menu(void);
+int displaySettings();
 
 int main(void) {
 	srand(rtc_Time());
@@ -112,7 +115,7 @@ int menu(void) {
 	}
 }
 
-int displaySettings() {
+int displaySettings(void) {
 	
 }
 
