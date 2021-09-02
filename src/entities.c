@@ -1,5 +1,6 @@
 #include "main.h"
 #include "entities.h"
+#include "graphics.h"
 
 void initialiseSnake(void) {
 	snake.length = STARTING_SNAKE_LEN;

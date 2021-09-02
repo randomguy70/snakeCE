@@ -3,7 +3,6 @@
 
 #include "main.h"
 #include "graphics.h"
-#include "entities.h"
 #include "vectors.h"
 
 #define SPEED                    POINT_SIZE

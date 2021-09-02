@@ -11,13 +11,14 @@
 #include "graphics.h"
 #include "entities.h"
 
-#define SAVE_APPVAR                   "SNKSAVE"
-#define SCORE_APPVAR                  "SNKSCORE"
+#define SAVE_APPVAR     "SNKSAVE"
+#define SCORE_APPVAR    "SNKSCORE"
 
 int main(void) {
 	srand(rtc_Time());
 	gfx_Begin();
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
+	color = START_OF_SHADES;
 	
 	initialiseSnake();
 	initialiseApple();
