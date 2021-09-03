@@ -22,17 +22,22 @@ struct settings settings;
 /* prototypes */
 void handlePresses(void);
 int menu(void);
-int displaySettings();
+int displaySettings(void);
 
 int main(void) {
 	ti_CloseAll();
 	srand(rtc_Time());
+	
 	gfx_Begin();
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	color = START_OF_SHADES;
 	
-	initialiseSnake();
-	initialiseApple();
+	int savedState = loadState(&settings, &snake, &apple, &color);
+	
+	if(savedState != 1) {
+		initialiseSnake();
+		initialiseApple();
+	}
 	
 	while(true) {
 		

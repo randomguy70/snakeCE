@@ -7,6 +7,8 @@
 #define SAVE_APPVAR   "SNKSAVE"
 #define SCORE_APPVAR  "SNKSCORE"
 
-void saveState(struct settings *settings, struct snake *snake, struct point *apple, enum color *color);
+int saveState(struct settings *settings, struct snake *snake, struct point *apple, enum color *color);
+
+int loadState(struct settings *settings, struct snake *snake, struct point *apple, enum color *color);
 
 #endif
