@@ -9,10 +9,11 @@
 #define SCORE_APPVAR  "SNKSCORE"
 
 int saveState(struct settings *settings, struct snake *snake, struct point *apple, enum color *color) {
-	const settings_size = 5;
-	const snake_size    =  ;
-	const apple_size       ;
-	const color_size    = 1;
+	const settings_size = sizeof(uint8_t)*5;
+	const point_size    = sizeof(int)*2 + sizeof(uint8_t);
+	const snake_size    = point_size*200 + sizeof(int)*2;
+	const apple_size    = point_size;
+	const color_size    = sizeof(enum color);
 	
 	uint8_t file = ti_Open(SAVE_APPVAR, "w+");
 	if(!file) {
