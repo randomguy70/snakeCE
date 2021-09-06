@@ -41,16 +41,46 @@ bool saveState(struct settings* settings, uint8_t score) {
 	return true;
 }
 
+
 int checkSaveFileAuthenticity(void) {
-	uint8_t file;
-	uint8_t fileBytes[7];
+	uint8_t file = 0;
+	uint8_t fileBytes[5] = {0};
+	uint16_t realCheckSum = 0;
+	uint16_t fileCheckSum = 0;
 	
-	file = ti_Open(SAVE_APPVAR, "w+");
+	file = ti_Open(SAVE_APPVAR, "r");
 	
 	if(!file) {
 		return -1;
 	}
 	
+	ti_Seek(0, SEEK_SET, file);
+	ti_Read(&fileCheckSum, 2, 1, file);
+	ti_Read(fileBytes, 5, 1, file);
+	ti_SetArchiveStatus(true, file);
+	ti_Close(file);
 	
+	for(uint8_t i=0; i<5; i++) {
+		realCheckSum += fileBytes[i];
+	}
 	
+	if(realCheckSum == fileCheckSum) {
+		return 1;
+	}
+	
+	return 0;
+}
+
+void resetSaveFile(void) {
+	uint8_t file = ti_Open(SAVE_APPVAR, "w+");
+	uint8_t nullByte = 0;
+	
+	if(!file) {
+		return;
+	}
+	
+	ti_Write(&nullByte, 1, 7, file);
+	ti_Resize(7, file);
+	ti_Close(file);
+	return;
 }
