@@ -3,7 +3,7 @@
 
 #include "settings.h"
 
-#define SAVE_APPVAR SNKSAVE
+#define SAVE_FILE "SNKSAVE"
 
 // saves settings and encrypts score
 bool saveState(struct settings* settings, uint8_t score);

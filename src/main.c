@@ -73,7 +73,7 @@ int main(void) {
 		delay(DELAY_TIME);
 	}
 	
-	saveState(&settings, &snake, &apple, &color);
+	saveState(&settings, &snake.length);
 	gfx_End();
 	return 0;
 }

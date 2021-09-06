@@ -5,7 +5,7 @@
 #include "save.h"
 
 bool saveState(struct settings* settings, uint8_t score) {
-	uint8_t file = ti_Open(SAVE_APPVAR, "w+");
+	uint8_t file = ti_Open(SAVE_FILE, "w+");
 	
 	uint16_t checkSum = 0;
 	unsigned int encryptedScore;
@@ -14,7 +14,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 	
 	if(!file) {
 		ti_CloseAll();
-		file = ti_Open(SAVE_APPVAR, "w+");
+		file = ti_Open(SAVE_FILE, "w+");
 		if(!file) {
 			ti_CloseAll();
 			return false;
@@ -87,7 +87,7 @@ int checkSaveFileAuthenticity(void) {
 	uint16_t realCheckSum = 0;
 	uint16_t fileCheckSum = 0;
 	
-	file = ti_Open(SAVE_APPVAR, "r");
+	file = ti_Open(SAVE_FILE, "r");
 	
 	if(!file) {
 		return -1;
@@ -111,7 +111,7 @@ int checkSaveFileAuthenticity(void) {
 }
 
 void resetSaveFile(void) {
-	uint8_t file = ti_Open(SAVE_APPVAR, "w+");
+	uint8_t file = ti_Open(SAVE_FILE, "w+");
 	uint8_t nullByte = 0;
 	
 	if(!file) {
