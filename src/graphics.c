@@ -22,10 +22,10 @@ uint8_t updateShade(enum color *color) {
 	return prevColor;
 }
 
-void printColoredString(char* string, int x, int y) {
+void printColoredString(char* string, int x, int y, enum color *color) {
 	gfx_SetTextXY(x, y);
 	for(unsigned int i=0; i<strlen(string); i++) {
-		gfx_SetTextFGColor(updateShade());
+		gfx_SetTextFGColor(updateShade(color));
 		gfx_PrintChar(string[i]);
 	}
 }

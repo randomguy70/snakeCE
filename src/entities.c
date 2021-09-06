@@ -19,7 +19,7 @@ void drawSnake(struct snake *snake) {
 	}
 }
 
-void moveSnake(struct snake *snake, uint8_t speed) {
+void moveSnake(struct snake *snake, uint8_t speed, enum color *color) {
 	// oh yea. inversed array looping
 	// o-o-o-o-o-o-o-o-o
 	// start here------^
@@ -53,7 +53,7 @@ void moveSnake(struct snake *snake, uint8_t speed) {
 			snake->points[0].y = YMIN;
 		}
 	}
-	snake->points[0].color = updateShade();
+	snake->points[0].color = updateShade(color);
 }
 
 bool foundApple(struct point *apple, struct snake *snake) {

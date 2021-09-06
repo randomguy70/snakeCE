@@ -16,7 +16,7 @@ struct snake {
 
 void initialiseSnake(struct snake *snake, uint8_t pointSize, enum color *startingShade);
 void drawSnake(struct snake *snake);
-void moveSnake(struct snake *snake);
+void moveSnake(struct snake *snake, uint8_t speed, enum color *color);
 bool foundApple(struct point *apple, struct snake *snake);
 void growSnake(struct snake *snake);
 bool snakeDied(struct snake *snake);

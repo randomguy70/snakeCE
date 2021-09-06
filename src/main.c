@@ -59,13 +59,13 @@ int main(void) {
 				gfx_End();
 				return 0;
 			}
-			initialiseSnake(&snake);
+			initialiseSnake(&snake, &settings.size, &color);
 			initialiseApple(&apple);
 		}
 		
 		handlePresses();
-		moveSnake();
-		delay(DELAY_TIME);
+		moveSnake(&snake, settings.size, &color);
+		delay(settings.speed);
 	}
 	
 	saveState(&settings, &snake.length);
@@ -105,7 +105,7 @@ int menu(void) {
 	for(uint8_t i=0; i<numTxtStrings; i++) {
 		int strX = LCD_WIDTH/2 - gfx_GetStringWidth(txt[i])/2;
 		int strY = y + 5 + i*lineSpacing;
-		printColoredString(txt[i], strX, strY);
+		printColoredString(txt[i], strX, strY, randInt(START_OF_SHADES, END_OF_SHADES));
 	}
 	
 	gfx_SwapDraw();
@@ -116,8 +116,6 @@ int menu(void) {
 			return 0;
 		}
 		if(kb_IsDown(kb_KeyEnter) || kb_IsDown(kb_Key2nd)) {
-			initialiseSnake();
-			initialiseApple();
 			return 1;
 		}
 	}
