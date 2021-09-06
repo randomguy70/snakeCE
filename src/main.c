@@ -14,10 +14,10 @@
 #include "save.h"
 
 /* define globals (declared in main.h). And yes, this is horrible code, but it's snake, and it's my first time making snake, so give me a break! :P */
+
 struct snake    snake;
 struct point    apple;
 enum   color    color;
-struct settings settings;
 
 /* prototypes */
 void handlePresses(void);
@@ -25,6 +25,8 @@ int menu(void);
 int displaySettings(void);
 
 int main(void) {
+	struct settings settings;
+	
 	ti_CloseAll();
 	srand(rtc_Time());
 	
@@ -32,7 +34,10 @@ int main(void) {
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	color = START_OF_SHADES;
 	
-	
+	if(!checkSaveFileAuthenticity()) {
+		resetSaveFile();
+	}
+	loadSettings(&settings);
 	
 	initialiseSnake();
 	initialiseApple();
@@ -55,7 +60,7 @@ int main(void) {
 		}
 		if(snakeDied()) {
 			if(menu() == 0) {
-				saveState(&settings, &snake, &apple, &color);
+				saveState(&settings, &snake.length);
 				gfx_End();
 				return 0;
 			}

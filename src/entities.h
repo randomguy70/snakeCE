@@ -13,7 +13,7 @@
 struct snake {
 	struct point points[200];
 	direction_t direction;
-	int length;
+	uint8_t length;
 };
 
 void initialiseSnake(void);

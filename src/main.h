@@ -22,7 +22,5 @@
 extern struct snake snake;
 extern struct point apple;
 extern enum color color;
-extern struct settings settings;
-
 
 #endif
