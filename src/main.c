@@ -55,17 +55,17 @@ int main(void) {
 		
 		if(snakeDied(&snake)) {
 			if(menu() == 0) {
-				saveState(&settings, &snake.length);
+				saveState(&settings, snake.length);
 				gfx_End();
 				return 0;
 			}
-			initialiseSnake(&snake, &settings.size, &color);
+			initialiseSnake(&snake, settings.size, &color);
 			initialiseApple(&apple);
 		}
 		
 		handlePresses();
 		moveSnake(&snake, settings.size, &color);
-		delay(settings.speed);
+		delay(settings.delay_time);
 	}
 	
 	saveState(&settings, &snake.length);

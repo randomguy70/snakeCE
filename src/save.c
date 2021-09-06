@@ -25,7 +25,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 	
 	settingsData[0] = settings->show_score;
 	settingsData[1] = settings->size;
-	settingsData[2] = settings->speed;
+	settingsData[2] = settings->delay_time;
 	
 	checkSum += scoreBytesPtr[0] + scoreBytesPtr[1] + scoreBytesPtr[2];
 	checkSum += settingsData[0] + settingsData[1] + settingsData[2];
@@ -58,7 +58,17 @@ int loadSettings(struct settings *settings) {
 	
 	settings->show_score = data[0];
 	settings->size = data[1];
-	settings->speed = data[2];
+	settings->delay_time = data[2];
+	
+	if(settings->show_score != true && settings->show_score != false) {
+		settings->show_score = true;
+	}
+	if(settings->size != SMALL_SIZE && settings->size != MEDIUM_SIZE  && settings->size != LARGE_SIZE) {
+		settings->size = MEDIUM_SIZE;
+	}
+	if(settings->delay_time != SLOW_SPEED && settings->delay_time != MEDIUM_SPEED  && settings->delay_time != FAST_SPEED) {
+		settings->delay_time = MEDIUM_SPEED;
+	}
 	
 	return 1;
 }
