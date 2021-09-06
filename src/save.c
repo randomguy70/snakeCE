@@ -63,8 +63,22 @@ int loadState(struct settings *settings) {
 	return 1;
 }
 
-void getScore(uint8_t *score) {
+int getScore(uint8_t *score) {
+	uint8_t file;
+	unsigned int encryptedScore;
 	
+	file = ti_Open(SAVE_FILE, "r");
+	if(!file) {
+		return -1;
+	}
+	
+	ti_Read(&encryptedScore, sizeof(encryptedScore), 1, file);
+	ti_Close(file);
+	
+	// encrypted score = ((score*26)+15765)*3-4133
+	*score = (((encryptedScore + 4133) /3 -15765) / 26);
+	
+	return 1;	
 }
 
 int checkSaveFileAuthenticity(void) {
