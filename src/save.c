@@ -37,15 +37,20 @@ bool saveState(struct settings* settings, uint8_t score) {
 	ti_Write(settingsData, 3, 1, file);
 	ti_SetArchiveStatus(true, file);
 	ti_Close(file);
+	
+	return true;
 }
 
 int checkSaveFileAuthenticity(void) {
 	uint8_t file;
-	uint8_t bytes; = ti_Open(SAVE_APPVAR, "w+");
+	uint8_t fileBytes[7];
+	
+	file = ti_Open(SAVE_APPVAR, "w+");
 	
 	if(!file) {
 		return -1;
 	}
+	
 	
 	
 }
