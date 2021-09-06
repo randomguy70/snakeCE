@@ -23,12 +23,11 @@ bool saveState(struct settings* settings, uint8_t score) {
 	
 	encryptedScore = (score*26)+15765; /* Yes, I know. So hard to crack. */
 	
-	checkSum += scoreBytesPtr[0] + scoreBytesPtr[1] + scoreBytesPtr[2];
-	
 	settingsData[0] = settings->show_score;
 	settingsData[1] = settings->size;
 	settingsData[2] = settings->speed;
 	
+	checkSum += scoreBytesPtr[0] + scoreBytesPtr[1] + scoreBytesPtr[2];
 	checkSum += settingsData[0] + settingsData[1] + settingsData[2];
 	
 	ti_Resize(7, file);
