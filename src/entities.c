@@ -74,17 +74,17 @@ bool snakeDied(struct snake *snake) {
 	return false;
 }
 
-void initialiseApple(void) {
-	apple.x = POINT_SIZE*randInt(XMIN, LCD_WIDTH/POINT_SIZE-POINT_SIZE);
-	apple.y = POINT_SIZE*randInt(YMIN, LCD_HEIGHT/POINT_SIZE-POINT_SIZE);
-	apple.color = randInt(START_OF_SHADES, END_OF_SHADES);
+void initialiseApple(struct point *apple) {
+	apple->x = POINT_SIZE*randInt(XMIN, LCD_WIDTH/POINT_SIZE-POINT_SIZE);
+	apple->y = POINT_SIZE*randInt(YMIN, LCD_HEIGHT/POINT_SIZE-POINT_SIZE);
+	apple->color = randInt(START_OF_SHADES, END_OF_SHADES);
 	
-	if(apple.x > LCD_WIDTH)
-		apple.x = LCD_WIDTH-POINT_SIZE;
-	if(apple.x < 0)
-		apple.x = 0;
-	if(apple.y > LCD_HEIGHT)
-		apple.y = LCD_HEIGHT-POINT_SIZE;
-	if(apple.y < 0)
-		apple.y = 0;
+	if(apple->x > LCD_WIDTH)
+		apple->x = LCD_WIDTH-POINT_SIZE;
+	if(apple->x < 0)
+		apple->x = 0;
+	if(apple->y > LCD_HEIGHT)
+		apple->y = LCD_HEIGHT-POINT_SIZE;
+	if(apple->y < 0)
+		apple->y = 0;
 }
