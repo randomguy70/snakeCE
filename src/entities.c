@@ -65,9 +65,9 @@ void growSnake(struct snake *snake) {
 	snake->points[snake->length-1] = snake->points[snake->length-2];
 }
 
-bool snakeDied(void) {
-	for(int i=1; i<snake.length; i++) {
-		if(snake.points[0].x == snake.points[i].x && snake.points[0].y == snake.points[i].y) {
+bool snakeDied(struct snake *snake) {
+	for(int i=1; i<snake->length; i++) {
+		if(snake->points[0].x == snake->points[i].x && snake->points[0].y == snake->points[i].y) {
 			return true;
 		}
 	}
