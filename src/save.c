@@ -41,7 +41,6 @@ bool saveState(struct settings* settings, uint8_t score) {
 	return true;
 }
 
-
 int checkSaveFileAuthenticity(void) {
 	uint8_t file = 0;
 	uint8_t fileBytes[5] = {0};
