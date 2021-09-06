@@ -44,6 +44,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 void loadState(struct settings *settings) {
 	
 	
+}
 
 void getScore(uint8_t *score) {
 	/* XXX */
