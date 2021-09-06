@@ -20,11 +20,29 @@ bool saveState(struct settings* settings, uint8_t score) {
 		}
 	}
 	
+	encryptedScore = (score*26)+15765; /* Yes, I know. So hard to crack. */
+	
 	settingsData[0] = settings->show_score;
 	settingsData[1] = settings->size;
 	settingsData[2] = settings->speed;
 	
-	ti_Seek(0, SEEK_SET, file);
+	checkSum = encryptedScore + settingsData[0] + settingsData[1] + settingsData[2];
 	
+	ti_Resize(7, file);
+	ti_Seek(0, SEEK_SET, file);
+	ti_Write(&checkSum, sizeof(checkSum), 1, file);
+	ti_Write(&encryptedScore, sizeof(encryptedScore), 1, file);
+	ti_Write(settingsData, 3, 1, file);
+	ti_SetArchiveStatus(true, file);
 	ti_Close(file);
+}
+
+int checkSaveFileAuthenticity(void) {
+	uint8_t file = ti_Open(SAVE_APPVAR, "w+");
+	
+	if(!file) {
+		return -1;
+	}
+	
+	
 }
