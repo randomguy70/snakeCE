@@ -56,13 +56,13 @@ void moveSnake(struct snake *snake, uint8_t speed) {
 	snake->points[0].color = updateShade();
 }
 
-bool foundApple(void) {
-	return (snake.points[0].x == apple.x && snake.points[0].y == apple.y);
+bool foundApple(struct point *apple, struct snake *snake) {
+	return (snake->points[0].x == apple->x && snake->points[0].y == apple->y);
 }
 
-void growSnake(void) {
-	snake.length++;
-	snake.points[snake.length-1] = snake.points[snake.length-2];
+void growSnake(struct snake *snake) {
+	snake->length++;
+	snake->points[snake->length-1] = snake->points[snake->length-2];
 }
 
 bool snakeDied(void) {
