@@ -1,6 +1,3 @@
-#ifndef MAIN_C
-#define MAIN_C
-
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
@@ -13,20 +10,17 @@
 #include "settings.h"
 #include "save.h"
 
-/* define globals (declared in main.h). And yes, this is horrible code, but it's snake, and it's my first time making snake, so give me a break! :P */
-
-struct snake    snake;
-struct point    apple;
-enum   color    color;
-
-/* prototypes */
 void handlePresses(void);
 int menu(void);
-int displaySettings(void);
+int displaySettings(struct settings *settings);
 
 int main(void) {
-	struct settings settings;
 	
+	struct settings settings;
+	struct snake    snake;
+	struct point    apple;
+	enum   color    color;
+
 	ti_CloseAll();
 	srand(rtc_Time());
 	
@@ -39,8 +33,8 @@ int main(void) {
 	}
 	loadSettings(&settings);
 	
-	initialiseSnake();
-	initialiseApple();
+	initialiseSnake(&snake, settings.size, color);
+	initialiseApple(&apple);
 	
 	while(true) {
 		
@@ -50,22 +44,23 @@ int main(void) {
 		
 		gfx_SetDraw(gfx_buffer);
 		gfx_FillScreen(BLACK);
-		drawSnake();
+		drawSnake(&snake);
 		drawPoint(&apple);
 		gfx_SwapDraw();
 		
-		if(foundApple()) {
-			growSnake();
-			initialiseApple();
+		if(foundApple(&apple, &snake)) {
+			growSnake(&snake);
+			initialiseApple(&apple);
 		}
-		if(snakeDied()) {
+		
+		if(snakeDied(&snake)) {
 			if(menu() == 0) {
 				saveState(&settings, &snake.length);
 				gfx_End();
 				return 0;
 			}
-			initialiseSnake();
-			initialiseApple();
+			initialiseSnake(&snake);
+			initialiseApple(&apple);
 		}
 		
 		handlePresses();
@@ -128,8 +123,6 @@ int menu(void) {
 	}
 }
 
-int displaySettings(void) {
+int displaySettings(struct settings *settings) {
 	
 }
-
-#endif

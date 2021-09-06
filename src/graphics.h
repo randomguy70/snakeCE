@@ -21,7 +21,7 @@ struct point {
 
 void drawPoint(struct point* point);
 void erasePoint(struct point* point);
-uint8_t updateShade(void);
+uint8_t updateShade(enum color *color);
 void printColoredString(char* string, int x, int y);
 void thickRectangle(int x, int y, int width, int height, uint8_t thickness);
 

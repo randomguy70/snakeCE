@@ -14,10 +14,11 @@ void erasePoint(struct point* point) {
 	gfx_FillRectangle_NoClip(point->x, point->y, POINT_SIZE, POINT_SIZE);
 }
 
-uint8_t updateShade(void) {
-	uint8_t prevColor = color;
-	if(++color > END_OF_SHADES)
-		color = START_OF_SHADES;
+uint8_t updateShade(enum color *color) {
+	uint8_t prevColor = *color;
+	if(++(*color) > END_OF_SHADES) {
+		*color = START_OF_SHADES;
+	}
 	return prevColor;
 }
 

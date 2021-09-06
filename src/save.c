@@ -112,14 +112,11 @@ int checkSaveFileAuthenticity(void) {
 
 void resetSaveFile(void) {
 	uint8_t file = ti_Open(SAVE_FILE, "w+");
-	uint8_t nullByte = 0;
-	
+		
 	if(!file) {
 		return;
 	}
 	
-	ti_Write(&nullByte, 1, 7, file);
-	ti_Resize(7, file);
+	ti_Write((const void *)0xFF0000, 7, 1, file);
 	ti_Close(file);
-	return;
 }

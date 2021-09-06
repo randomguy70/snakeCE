@@ -2,14 +2,14 @@
 #include "entities.h"
 #include "graphics.h"
 
-void initialiseSnake(struct snake *snake) {
+void initialiseSnake(struct snake *snake, uint8_t pointSize, enum color *startingShade) {
 	snake->length = STARTING_SNAKE_LEN;
 	snake->direction = DIR_RIGHT;
 	
 	for(int i=0; i<STARTING_SNAKE_LEN; i++) {
-		snake->points[i].x = (STARTING_SNAKE_LEN*POINT_SIZE) - (i*POINT_SIZE);
+		snake->points[i].x = (STARTING_SNAKE_LEN*pointSize) - (i*pointSize);
 		snake->points[i].y = YMIN;
-		snake->points[i].color = updateShade();
+		snake->points[i].color = updateShade(startingShade);
 	}
 }
 
