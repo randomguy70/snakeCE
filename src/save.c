@@ -21,7 +21,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 		}
 	}
 	
-	encryptedScore = (score*26)+15765; /* Yes, I know. So hard to crack. */
+	encryptedScore = ((score*26)+15765)*3-4133; /* Yes, I know. So hard to crack. */
 	
 	settingsData[0] = settings->show_score;
 	settingsData[1] = settings->size;
@@ -39,6 +39,15 @@ bool saveState(struct settings* settings, uint8_t score) {
 	ti_Close(file);
 	
 	return true;
+}
+
+void loadState(struct settings *settings) {
+	
+	
+}
+
+void getScore(uint8_t *score) {
+	/* XXX*/
 }
 
 int checkSaveFileAuthenticity(void) {
