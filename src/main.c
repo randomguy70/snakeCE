@@ -10,8 +10,8 @@
 #include "gfx/gfx.h"
 #include "graphics.h"
 #include "entities.h"
-#include "state.h"
 #include "settings.h"
+#include "save.h"
 
 /* define globals (declared in main.h). And yes, this is horrible code, but it's snake, and it's my first time making snake, so give me a break! :P */
 struct snake    snake;
@@ -32,12 +32,10 @@ int main(void) {
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	color = START_OF_SHADES;
 	
-	int savedState = loadState(&settings, &snake, &apple, &color);
 	
-	if(savedState != 1) {
-		initialiseSnake();
-		initialiseApple();
-	}
+	
+	initialiseSnake();
+	initialiseApple();
 	
 	while(true) {
 		
