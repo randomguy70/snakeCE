@@ -41,9 +41,26 @@ bool saveState(struct settings* settings, uint8_t score) {
 	return true;
 }
 
-void loadState(struct settings *settings) {
+int loadState(struct settings *settings) {
+	uint8_t file;
+	uint8_t data[3];
 	
+	file = ti_Open(SAVE_FILE, "r");
 	
+	if(!file) {
+		return -1;
+	}
+	
+	ti_Seek(5, SEEK_SET, file);
+	ti_Read(data, sizeof(uint8_t), 3, file);
+	ti_SetArchiveStatus(true, file);
+	ti_Close(file);
+	
+	settings->show_score = data[0];
+	settings->size = data[1];
+	settings->speed = data[2];
+	
+	return 1;
 }
 
 void getScore(uint8_t *score) {
