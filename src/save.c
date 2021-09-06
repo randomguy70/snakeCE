@@ -41,7 +41,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 	return true;
 }
 
-int loadState(struct settings *settings) {
+int loadSettings(struct settings *settings) {
 	uint8_t file;
 	uint8_t data[3];
 	

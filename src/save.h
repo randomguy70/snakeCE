@@ -5,11 +5,11 @@
 
 #define SAVE_APPVAR SNKSAVE
 
-// save settings and score
+// saves settings and encrypts score
 bool saveState(struct settings* settings, uint8_t score);
 
 // load settings and score
-int loadState(struct settings *settings);
+int loadSettings(struct settings *settings);
 
 // stores unencrypted score into given pointer
 int getScore(uint8_t *score);
