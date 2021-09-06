@@ -64,7 +64,7 @@ int loadState(struct settings *settings) {
 }
 
 void getScore(uint8_t *score) {
-	/* XXX */
+	
 }
 
 int checkSaveFileAuthenticity(void) {
