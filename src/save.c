@@ -40,7 +40,8 @@ bool saveState(struct settings* settings, uint8_t score) {
 }
 
 int checkSaveFileAuthenticity(void) {
-	uint8_t file = ti_Open(SAVE_APPVAR, "w+");
+	uint8_t file;
+	uint8_t bytes; = ti_Open(SAVE_APPVAR, "w+");
 	
 	if(!file) {
 		return -1;
