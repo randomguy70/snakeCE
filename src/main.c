@@ -2,6 +2,7 @@
 #include <graphx.h>
 #include <keypadc.h>
 #include <string.h>
+#include <fileioc.h>
 
 #include "main.h"
 #include "gfx/gfx.h"
@@ -10,7 +11,7 @@
 #include "settings.h"
 #include "save.h"
 
-void handlePresses(void);
+void handlePresses(struct snake *snake);
 int menu(void);
 int displaySettings(struct settings *settings);
 
@@ -33,7 +34,10 @@ int main(void) {
 	}
 	loadSettings(&settings);
 	
-	initialiseSnake(&snake, settings.size, color);
+	settings.size = 4;
+	settings.delay_time = 5;
+	
+	initialiseSnake(&snake, settings.size, &color);
 	initialiseApple(&apple);
 	
 	while(true) {
@@ -63,28 +67,28 @@ int main(void) {
 			initialiseApple(&apple);
 		}
 		
-		handlePresses();
+		handlePresses(&snake);
 		moveSnake(&snake, settings.size, &color);
 		delay(settings.delay_time);
 	}
 	
-	saveState(&settings, &snake.length);
+	saveState(&settings, snake.length);
 	gfx_End();
 	return 0;
 }
 
-void handlePresses(void) {
-	if(kb_IsDown(kb_KeyUp) && snake.direction!=DIR_DOWN) {
-		snake.direction = DIR_UP;
+void handlePresses(struct snake *snake) {
+	if(kb_IsDown(kb_KeyUp) && snake->direction!=DIR_DOWN) {
+		snake->direction = DIR_UP;
 	}
-	if(kb_IsDown(kb_KeyDown) && snake.direction!=DIR_UP) {
-		snake.direction = DIR_DOWN;
+	if(kb_IsDown(kb_KeyDown) && snake->direction!=DIR_UP) {
+		snake->direction = DIR_DOWN;
 	}
-	if(kb_IsDown(kb_KeyRight) && snake.direction!=DIR_LEFT) {
-		snake.direction = DIR_RIGHT;
+	if(kb_IsDown(kb_KeyRight) && snake->direction!=DIR_LEFT) {
+		snake->direction = DIR_RIGHT;
 	}
-	if(kb_IsDown(kb_KeyLeft) && snake.direction!=DIR_RIGHT) {
-		snake.direction = DIR_LEFT;
+	if(kb_IsDown(kb_KeyLeft) && snake->direction!=DIR_RIGHT) {
+		snake->direction = DIR_LEFT;
 	}
 }
 
@@ -96,6 +100,7 @@ int menu(void) {
 	char *txt[] = {"You died, unfortunately.", "Again! - Enter", "Quit - Clear", "Mode - Settings"};
 	const uint8_t numTxtStrings = 4;
 	const uint8_t lineSpacing = 20;
+	enum color color = randInt(START_OF_SHADES, END_OF_SHADES);
 	
 	gfx_SetDraw(gfx_buffer);
 	
@@ -105,7 +110,7 @@ int menu(void) {
 	for(uint8_t i=0; i<numTxtStrings; i++) {
 		int strX = LCD_WIDTH/2 - gfx_GetStringWidth(txt[i])/2;
 		int strY = y + 5 + i*lineSpacing;
-		printColoredString(txt[i], strX, strY, randInt(START_OF_SHADES, END_OF_SHADES));
+		printColoredString(txt[i], strX, strY, &color);
 	}
 	
 	gfx_SwapDraw();
@@ -122,5 +127,6 @@ int menu(void) {
 }
 
 int displaySettings(struct settings *settings) {
-	
+	/* XXX */
+	return settings->size;	
 }
