@@ -9,7 +9,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 	
 	uint16_t checkSum = 0;
 	unsigned int encryptedScore;
-	uint8_t *scoreBytesPtr = &encryptedScore;
+	uint8_t *scoreBytesPtr = (uint8_t*)&encryptedScore;
 	uint8_t settingsData[3] = {0};
 	
 	if(!file) {
@@ -42,7 +42,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 }
 
 int loadSettings(struct settings *settings) {
-	uint8_t file;
+	ti_var_t file;
 	uint8_t data[3];
 	
 	file = ti_Open(SAVE_FILE, "r");
@@ -52,7 +52,7 @@ int loadSettings(struct settings *settings) {
 	}
 	
 	ti_Seek(5, SEEK_SET, file);
-	ti_Read(data, sizeof(uint8_t), 3, file);
+	ti_Read(data, 3*sizeof(uint8_t), 1, file);
 	ti_SetArchiveStatus(true, file);
 	ti_Close(file);
 	
@@ -64,7 +64,7 @@ int loadSettings(struct settings *settings) {
 		settings->show_score = true;
 	}
 	if(settings->size != SMALL_SIZE && settings->size != MEDIUM_SIZE  && settings->size != LARGE_SIZE) {
-		settings->size = MEDIUM_SIZE;
+		settings->size = SMALL_SIZE;
 	}
 	if(settings->delay_time != SLOW_SPEED && settings->delay_time != MEDIUM_SPEED  && settings->delay_time != FAST_SPEED) {
 		settings->delay_time = MEDIUM_SPEED;

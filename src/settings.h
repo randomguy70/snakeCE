@@ -5,8 +5,8 @@
 
 #include "main.h"
 
-#define SLOW_SPEED   40
-#define MEDIUM_SPEED 20
+#define SLOW_SPEED   25
+#define MEDIUM_SPEED 10
 #define FAST_SPEED   0
 
 #define SMALL_SIZE   4
