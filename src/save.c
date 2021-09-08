@@ -8,16 +8,12 @@ bool saveState(struct settings* settings, uint8_t score) {
 	uint8_t file = ti_Open(SAVE_FILE, "w+");
 	
 	uint16_t checkSum = 0;
+	uint8_t *checkSumDataPtr;
 	unsigned int encryptedScore;
-	uint8_t settingsData[3] = {settings->show_score, settings->size, settings->delay_time};
+	uint8_t settingsData[3] = {0};
 	
 	if(!file) {
-		ti_CloseAll();
-		file = ti_Open(SAVE_FILE, "w+");
-		if(!file) {
-			ti_CloseAll();
-			return false;
-		}
+		return false;
 	}
 	
 	encryptedScore = ((score*26)+15765)*3-4133; /* Yes, I know. So hard to crack. */
@@ -26,11 +22,20 @@ bool saveState(struct settings* settings, uint8_t score) {
 	settingsData[1] = settings->size;
 	settingsData[2] = settings->delay_time;
 	
-	ti_Seek(0, SEEK_SET, file);
-	ti_Write(&checkSum, sizeof(checkSum), 1, file);
+	// write data
+	ti_Seek(sizeof(checkSum), SEEK_SET, file);
 	ti_Write(&encryptedScore, sizeof(encryptedScore), 1, file);
 	ti_Write(settingsData, 3, 1, file);
 	ti_SetArchiveStatus(true, file);
+	
+	// calculate and write checksum
+	ti_Seek(sizeof(checkSum), SEEK_SET, file);
+	checkSumDataPtr = ti_GetDataPtr(file);
+	for(uint8_t i=0; i<5; i++) {
+		checkSum += checkSumDataPtr[i];
+	}
+	ti_Seek(0, SEEK_SET, file);
+	ti_Write(&checkSum, sizeof(checkSum), 1, file);
 	ti_Close(file);
 	
 	return true;
