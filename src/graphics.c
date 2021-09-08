@@ -4,14 +4,9 @@
 #include "graphics.h"
 #include "main.h"
 
-void drawPoint(struct point* point) {
+void drawPoint(struct point* point, uint8_t pointSize) {
 	gfx_SetColor(point->color);
-	gfx_FillRectangle(point->x, point->y, POINT_SIZE, POINT_SIZE);
-}
-
-void erasePoint(struct point* point) {
-	gfx_SetColor(BLACK);
-	gfx_FillRectangle_NoClip(point->x, point->y, POINT_SIZE, POINT_SIZE);
+	gfx_FillRectangle(point->x, point->y, pointSize, pointSize);
 }
 
 uint8_t updateShade(enum color *color) {

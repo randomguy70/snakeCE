@@ -38,7 +38,7 @@ int main(void) {
 	settings.delay_time = 5;
 	
 	initialiseSnake(&snake, settings.size, &color);
-	initialiseApple(&apple);
+	initialiseApple(&apple, settings.size);
 	
 	while(true) {
 		
@@ -48,13 +48,13 @@ int main(void) {
 		
 		gfx_SetDraw(gfx_buffer);
 		gfx_FillScreen(BLACK);
-		drawSnake(&snake);
-		drawPoint(&apple);
+		drawSnake(&snake, settings.size);
+		drawPoint(&apple, settings.size);
 		gfx_SwapDraw();
 		
 		if(foundApple(&apple, &snake)) {
 			growSnake(&snake);
-			initialiseApple(&apple);
+			initialiseApple(&apple, settings.size);
 		}
 		
 		if(snakeDied(&snake)) {
@@ -64,7 +64,7 @@ int main(void) {
 				return 0;
 			}
 			initialiseSnake(&snake, settings.size, &color);
-			initialiseApple(&apple);
+			initialiseApple(&apple, settings.size);
 		}
 		
 		handlePresses(&snake);

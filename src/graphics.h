@@ -4,10 +4,9 @@
 #include <tice.h>
 
 #define XMIN             0
-#define XMAX             LCD_WIDTH-POINT_SIZE
+#define XMAX             LCD_WIDTH
 #define YMIN             0
-#define YMAX             LCD_HEIGHT-POINT_SIZE
-#define POINT_SIZE       5
+#define YMAX             LCD_HEIGHT
 
 enum color {
 	BLACK = 253, GREY = 254,
@@ -19,8 +18,7 @@ struct point {
 	uint8_t color;
 };
 
-void drawPoint(struct point* point);
-void erasePoint(struct point* point);
+void drawPoint(struct point* point, uint8_t pointSize);
 uint8_t updateShade(enum color *color);
 void printColoredString(char* string, int x, int y, enum color *color);
 void thickRectangle(int x, int y, int width, int height, uint8_t thickness);
