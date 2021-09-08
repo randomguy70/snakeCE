@@ -132,9 +132,19 @@ void resetSaveFile(void) {
 }
 
 uint16_t getCheckSum(const char *name, int seekOffset) {
+	uint16_t checkSum = 0;
+	uint8_t *dataPtr = NULL;
+	int fileSize = 0;
 	ti_var_t file = ti_Open(name, "r");
 	if(!file)
 		return 0;
 	
+	fileSize = ti_GetSize(file)-seekOffset;
+	ti_Seek(seekOffset, SEEK_SET, file);
+	dataPtr = ti_GetDataPtr(file);
+	for(int i=0; i<fileSize; i++) {
+		checkSum += dataPtr[i];
+	}
 	
+	return checkSum;
 }
