@@ -130,3 +130,11 @@ void resetSaveFile(void) {
 	ti_Write((const void *)0xFF0000, 7, 1, file);
 	ti_Close(file);
 }
+
+uint16_t getCheckSum(const char *name, int seekOffset) {
+	ti_var_t file = ti_Open(name, "r");
+	if(!file)
+		return 0;
+	
+	
+}
