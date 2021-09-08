@@ -9,8 +9,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 	
 	uint16_t checkSum = 0;
 	unsigned int encryptedScore;
-	uint8_t *scoreBytesPtr = (uint8_t*)&encryptedScore;
-	uint8_t settingsData[3] = {0};
+	uint8_t settingsData[3] = {settings->show_score, settings->size, settings->delay_time};
 	
 	if(!file) {
 		ti_CloseAll();
@@ -27,10 +26,6 @@ bool saveState(struct settings* settings, uint8_t score) {
 	settingsData[1] = settings->size;
 	settingsData[2] = settings->delay_time;
 	
-	checkSum += scoreBytesPtr[0] + scoreBytesPtr[1] + scoreBytesPtr[2];
-	checkSum += settingsData[0] + settingsData[1] + settingsData[2];
-	
-	ti_Resize(7, file);
 	ti_Seek(0, SEEK_SET, file);
 	ti_Write(&checkSum, sizeof(checkSum), 1, file);
 	ti_Write(&encryptedScore, sizeof(encryptedScore), 1, file);
