@@ -72,7 +72,7 @@ int main(void) {
 		delay(settings.delay_time);
 	}
 	
-	saveState(&settings, snake.length);
+	saveState(&settings, snake.length-STARTING_SNAKE_LEN);
 	gfx_End();
 	return 0;
 }

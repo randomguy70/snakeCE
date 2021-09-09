@@ -20,4 +20,7 @@ int checkSaveFileAuthenticity(void);
 // wipes the save appvar (obv)
 void resetSaveFile(void);
 
+// adds up the bytes of a file starting from an offset and returns the value
+uint16_t getCheckSum(const char *name, int seekOffset);
+
 #endif

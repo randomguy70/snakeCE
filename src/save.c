@@ -5,12 +5,11 @@
 #include "save.h"
 
 bool saveState(struct settings* settings, uint8_t score) {
-	uint8_t file = ti_Open(SAVE_FILE, "w+");
-	
 	uint16_t checkSum = 0;
-	uint8_t *checkSumDataPtr;
-	unsigned int encryptedScore;
+	unsigned int encryptedScore = 0;
 	uint8_t settingsData[3] = {0};
+	ti_CloseAll();
+	uint8_t file = ti_Open(SAVE_FILE, "w+");
 	
 	if(!file) {
 		return false;
@@ -23,19 +22,15 @@ bool saveState(struct settings* settings, uint8_t score) {
 	settingsData[2] = settings->delay_time;
 	
 	// write data
-	ti_Seek(sizeof(checkSum), SEEK_SET, file);
-	ti_Write(&encryptedScore, sizeof(encryptedScore), 1, file);
+	ti_Seek(sizeof checkSum, SEEK_SET, file);
+	ti_Write(&encryptedScore, sizeof encryptedScore, 1, file);
 	ti_Write(settingsData, 3, 1, file);
 	ti_SetArchiveStatus(true, file);
 	
 	// calculate and write checksum
-	ti_Seek(sizeof(checkSum), SEEK_SET, file);
-	checkSumDataPtr = ti_GetDataPtr(file);
-	for(uint8_t i=0; i<5; i++) {
-		checkSum += checkSumDataPtr[i];
-	}
+	checkSum = getCheckSum(SAVE_FILE, sizeof(checkSum));
 	ti_Seek(0, SEEK_SET, file);
-	ti_Write(&checkSum, sizeof(checkSum), 1, file);
+	ti_Write(&checkSum, sizeof checkSum, 1, file);
 	ti_Close(file);
 	
 	return true;
@@ -94,8 +89,7 @@ int getScore(uint8_t *score) {
 int checkSaveFileAuthenticity(void) {
 	uint8_t file = 0;
 	uint8_t fileBytes[5] = {0};
-	uint16_t realCheckSum = 0;
-	uint16_t fileCheckSum = 0;
+	uint16_t checkSum = 0;
 	
 	file = ti_Open(SAVE_FILE, "r");
 	
@@ -104,16 +98,9 @@ int checkSaveFileAuthenticity(void) {
 	}
 	
 	ti_Seek(0, SEEK_SET, file);
-	ti_Read(&fileCheckSum, 2, 1, file);
-	ti_Read(fileBytes, 5, 1, file);
-	ti_SetArchiveStatus(true, file);
+	ti_Read(&checkSum, sizeof(checkSum), 1, file);
 	ti_Close(file);
-	
-	for(uint8_t i=0; i<5; i++) {
-		realCheckSum += fileBytes[i];
-	}
-	
-	if(realCheckSum == fileCheckSum) {
+	if(getCheckSum(SAVE_FILE, sizeof(checkSum)) == checkSum) {
 		return 1;
 	}
 	
@@ -146,5 +133,6 @@ uint16_t getCheckSum(const char *name, int seekOffset) {
 		checkSum += dataPtr[i];
 	}
 	
+	ti_Close(file);
 	return checkSum;
 }
