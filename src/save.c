@@ -20,12 +20,13 @@ bool saveState(struct settings* settings, uint8_t score) {
 	ti_Seek(sizeof checkSum, SEEK_SET, file);
 	ti_Write(&encryptedScore, sizeof encryptedScore, 1, file);
 	ti_Write(settingsData, 3, 1, file);
-	ti_SetArchiveStatus(true, file);
-	
+		
 	// calculate and write checksum
 	checkSum = getCheckSum(SAVE_FILE, sizeof(checkSum));
 	ti_Seek(0, SEEK_SET, file);
 	ti_Write(&checkSum, sizeof checkSum, 1, file);
+	
+	ti_SetArchiveStatus(true, file);
 	ti_Close(file);
 	
 	return true;
