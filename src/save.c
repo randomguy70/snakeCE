@@ -113,6 +113,7 @@ void resetSaveFile(void) {
 		return;
 	}
 	
+	ti_Resize(7, file);
 	ti_Write((const void *)0xFF0000, 7, 1, file);
 	ti_Close(file);
 }
