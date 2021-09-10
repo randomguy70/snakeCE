@@ -75,7 +75,7 @@ uint8_t getHighScore(void) {
 	if(!file) {
 		return -1;
 	}
-	
+	// checker = score*25+7367;
 	ti_Read(&encryptedScore, sizeof encryptedScore, 1, file);
 	ti_Close(file);
 	
