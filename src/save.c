@@ -14,7 +14,7 @@ bool saveState(struct settings* settings, uint8_t score) {
 		return false;
 	}
 	
-	scoreChecker = score*25+7367;
+	scoreChecker = score*57+7363;
 	
 	// write data
 	ti_Seek(sizeof checkSum, SEEK_SET, file);
@@ -69,20 +69,18 @@ int loadSettings(struct settings *settings) {
 uint8_t getHighScore(void) {
 	uint8_t file;
 	uint8_t highScore;
-	unsigned int encryptedScore;
 	
 	file = ti_Open(SAVE_FILE, "r");
 	if(!file) {
 		return -1;
 	}
-	// checker = score*25+7367;
-	ti_Read(&encryptedScore, sizeof encryptedScore, 1, file);
+	// checker == score*57+7363
+	ti_Seek(2, SEEK_SET, file);
+	ti_Read(&highScore, sizeof highScore, 1, file);
+	ti_SetArchiveStatus(true, file);
 	ti_Close(file);
 	
-	// encrypted score = ((score*26)+15765)*3-4133
-	highScore = (uint8_t) (((encryptedScore + 4133) /3 -15765) / 26);
-	
-	return highScore;	
+	return highScore;
 }
 
 int checkSaveFileAuthenticity(void) {
