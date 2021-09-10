@@ -13,7 +13,8 @@
  * Byte offset | Function         |
  * -------------------------------|
  * 0-1         | File Checksum    |
- * 2-4         | Score (encrypted)|
+ * 2           | Score            |
+ * 3-4         | Score checker    |
  * 5-7         | Settings Data    |
  * -------------------------------|
 **/
