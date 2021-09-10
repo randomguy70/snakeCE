@@ -12,7 +12,7 @@
 #include "save.h"
 
 void handlePresses(struct snake *snake);
-int menu(void);
+int menu(uint8_t score);
 int displaySettings(struct settings *settings);
 
 int main(void) {
@@ -58,7 +58,7 @@ int main(void) {
 		}
 		
 		if(snakeDied(&snake)) {
-			if(menu() == 0) {
+			if(menu(snake.length-STARTING_SNAKE_LEN) == 0) {
 				saveState(&settings, snake.length);
 				gfx_End();
 				return 0;
@@ -92,9 +92,9 @@ void handlePresses(struct snake *snake) {
 	}
 }
 
-int menu(void) {
+int menu(uint8_t score) {
 	const int width = 174;
-	const int height = 100;
+	const int height = 110;
 	const int x = LCD_WIDTH/2-width/2;
 	const int y = LCD_HEIGHT/2-height/2;
 	char *txt[] = {"You died, unfortunately.", "Again! - Enter", "Quit - Clear", "Mode - Settings"};
@@ -107,9 +107,14 @@ int menu(void) {
 	gfx_SetColor(BLACK); gfx_FillRectangle_NoClip(x, y, width, height);
 	gfx_SetColor(GREY);  thickRectangle(x, y, width, height, 3);
 	
+	printColoredString("Score:", x+10, y+6, &color);
+	gfx_PrintUInt((unsigned int) score, 2);
+	printColoredString("High:", (x + width) - (30+ gfx_GetStringWidth("High:")), y+6, &color);
+	gfx_PrintUInt((unsigned int) getHighScore(), 2);
+	
 	for(uint8_t i=0; i<numTxtStrings; i++) {
 		int strX = LCD_WIDTH/2 - gfx_GetStringWidth(txt[i])/2;
-		int strY = y + 5 + i*lineSpacing;
+		int strY = y + 20 + i*lineSpacing;
 		printColoredString(txt[i], strX, strY, &color);
 	}
 	

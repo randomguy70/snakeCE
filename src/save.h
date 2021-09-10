@@ -12,7 +12,7 @@ bool saveState(struct settings* settings, uint8_t score);
 int loadSettings(struct settings *settings);
 
 // stores unencrypted score into given pointer
-int getScore(uint8_t *score);
+uint8_t getHighScore(void);
 
 // checks the veracity of the save appvar
 int checkSaveFileAuthenticity(void);
