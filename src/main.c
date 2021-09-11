@@ -29,9 +29,9 @@ int main(void) {
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	color = START_OF_SHADES;
 	
-	//if(!checkSaveFileAuthenticity()) {
-	//	resetSaveFile();
-	//}
+	if(!checkSaveFileAuthenticity()) {
+		resetSaveFile();
+	}
 	loadSettings(&settings);
 	
 	settings.size = 4;
