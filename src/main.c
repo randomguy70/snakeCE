@@ -70,12 +70,12 @@ int main(void) {
 		
 		handlePresses(&snake);
 		moveSnake(&snake, settings.size, &color);
-		delay(1); /** ERROR HERE, apparently **/
+		// delay(1); /** ERROR HERE because bug **/
 	}
 	
-	// if(getHighScore() < score) {
-		// writeHighScore(score);
-	// }
+	if(getHighScore() < score) {
+		writeHighScore(score);
+	}
 	gfx_End();
 	return 0;
 }
