@@ -7,6 +7,7 @@
 void handleSaveFile(void) {
 	ti_var_t file = ti_Open(SAVE_FILE, "r+");
 	if(!file) {
+		wipeSaveFile();
 		return;
 	}
 	ti_Resize(7, file);
@@ -28,24 +29,24 @@ void wipeSaveFile(void) {
 
 uint16_t getHighScore() {
 	uint16_t highScore;
-	ti_var_t file = ti_Open(SAVE_FILe, "r");
+	ti_var_t file = ti_Open(SAVE_FILE, "r");
 	if(!file) {
-		return;
+		return 0;
 	}
-	ti_Seek(2, SEEK_SET, file);
-	ti_Read(&highScore, sizeof highScore, 1, file);
+	ti_Seek(SCORE_OFFSET, SEEK_SET, file);
+	ti_Read(&highScore, SCORE_CHECK_SIZE, 1, file);
 	ti_Close(file);
 	
 	return highScore;
 }
 
 uint16_t writeHighScore(uint16_t highScore) {
-	ti_var_t file = ti_Open(SAVE_FILe, "r+");
+	ti_var_t file = ti_Open(SAVE_FILE, "r+");
 	if(!file) {
-		return;
+		return 0;
 	}
-	ti_Seek(2, SEEK_SET, file);
-	ti_Write(&highScore, sizeof highScore, 1, file);
+	ti_Seek(SCORE_OFFSET, SEEK_SET, file);
+	ti_Write(&highScore, SCORE_SIZE, 1, file);
 	ti_SetArchiveStatus(true, file);
 	ti_Close(file);
 	

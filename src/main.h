@@ -12,10 +12,9 @@
  * -------------------------------|
  * Byte offset | Function         |
  * -------------------------------|
- * 0-1         | File Checksum    |
- * 2           | Score            |
- * 3-4         | Score checker    |
- * 5-7         | Settings Data    |
+ * 0-1         | Score            |
+ * 2-3         | Score checker    |
+ * 4-6         | Settings Data    |
  * -------------------------------|
 **/
 

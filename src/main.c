@@ -12,16 +12,19 @@
 #include "save.h"
 
 void handlePresses(struct snake *snake);
-int menu(uint8_t score);
+int menu(uint16_t score);
 int displaySettings(struct settings *settings);
-void displayScore(uint8_t score);
+void displayScore(uint16_t score);
 
 int main(void) {
+	handleSaveFile();
 	
 	struct settings settings;
 	struct snake    snake;
 	struct point    apple;
 	enum   color    color;
+	
+	uint16_t score = 0;
 	
 	srand(rtc_Time());
 	
@@ -29,10 +32,6 @@ int main(void) {
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	color = START_OF_SHADES;
 	
-	// if(!checkSaveFileAuthenticity()) {
-		// resetSaveFile();
-	// }
-	// loadSettings(&settings);
 	settings.show_score = true;
 	settings.size = 4;
 	settings.delay_time = 5;
@@ -41,6 +40,7 @@ int main(void) {
 	initialiseApple(&apple, settings.size);
 	
 	while(true) {
+		score = snake.length-STARTING_SNAKE_LEN;
 		
 		kb_Scan();
 		if(kb_IsDown(kb_KeyClear))
@@ -51,7 +51,7 @@ int main(void) {
 		drawSnake(&snake, settings.size);
 		drawPoint(&apple, settings.size);
 		if(settings.show_score) {
-			displayScore(snake.length-STARTING_SNAKE_LEN);
+			displayScore(score);
 		}
 		gfx_SwapDraw();
 		
@@ -62,19 +62,7 @@ int main(void) {
 		
 		if(snakeDied(&snake)) {
 			if(menu(snake.length-STARTING_SNAKE_LEN) == 0) {
-				saveSettings(&settings);
-				if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
-					// writeHighScore(snake.length-STARTING_SNAKE_LEN);
-					uint8_t file = ti_Open(SAVE_FILE, "r+");
-					uint8_t score = snake.length - STARTING_SNAKE_LEN;
-					ti_Seek(2, SEEK_SET, file);
-					ti_Write(&score, sizeof score, 1, file);
-					ti_SetArchiveStatus(true, file);
-					ti_Close(file);
-				}
-				
-				gfx_End();
-				return 0;
+				break;
 			}
 			initialiseSnake(&snake, settings.size, &color);
 			initialiseApple(&apple, settings.size);
@@ -82,12 +70,11 @@ int main(void) {
 		
 		handlePresses(&snake);
 		moveSnake(&snake, settings.size, &color);
-		// delay(settings.delay_time);
+		delay(1); /** ERROR HERE, apparently **/
 	}
 	
-	// saveSettings(&settings);
-	// if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
-		// writeHighScore(snake.length-STARTING_SNAKE_LEN);
+	// if(getHighScore() < score) {
+		// writeHighScore(score);
 	// }
 	gfx_End();
 	return 0;
@@ -112,7 +99,7 @@ void handlePresses(struct snake *snake) {
 	}
 }
 
-int menu(uint8_t score) {
+int menu(uint16_t score) {
 	const int width = 174;
 	const int height = 110;
 	const int x = LCD_WIDTH/2-width/2;
@@ -156,8 +143,8 @@ int displaySettings(struct settings *settings) {
 	return settings->size;	
 }
 
-void displayScore(uint8_t score) {
+void displayScore(uint16_t score) {
 	gfx_SetTextFGColor(10);
 	gfx_SetTextXY(2, 2);
-	gfx_PrintInt((int) score, 2);
+	gfx_PrintUInt((unsigned int) score, 2);
 }
