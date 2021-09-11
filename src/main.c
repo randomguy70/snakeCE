@@ -22,7 +22,7 @@ int main(void) {
 	struct settings settings;
 	struct snake    snake;
 	struct point    apple;
-	enum   color    color;
+	enum   color    color = START_OF_SHADES;
 	
 	uint16_t score = 0;
 	
@@ -30,7 +30,6 @@ int main(void) {
 	
 	gfx_Begin();
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
-	color = START_OF_SHADES;
 	
 	settings.show_score = true;
 	settings.size = 4;
