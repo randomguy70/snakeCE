@@ -62,6 +62,7 @@ int main(void) {
 				if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
 					writeHighScore(snake.length-STARTING_SNAKE_LEN);
 				}
+				
 				gfx_End();
 				return 0;
 			}
@@ -71,7 +72,7 @@ int main(void) {
 		
 		handlePresses(&snake);
 		moveSnake(&snake, settings.size, &color);
-		// delay(settings.delay_time);
+		delay(1);
 	}
 	
 	saveSettings(&settings);
