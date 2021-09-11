@@ -63,7 +63,7 @@ int main(void) {
 		}
 		
 		if(snakeDied(&snake)) {
-			if(menu(snake.length-STARTING_SNAKE_LEN) == 0) {
+			if(menu(score) == 0) {
 				break;
 			}
 			initialiseSnake(&snake, settings.size, &color);

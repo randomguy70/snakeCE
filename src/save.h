@@ -19,4 +19,7 @@ uint16_t getHighScore(void);
 uint16_t writeHighScore(uint16_t highScore);
 int getHighScoreVeracity(void);
 
+void readSettings(struct settings *settings);
+void writeSettings(struct settings *settings);
+
 #endif
