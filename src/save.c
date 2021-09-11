@@ -6,7 +6,7 @@
 
 int saveSettings(struct settings* settings) {
 	uint8_t settingsData[3] = {settings->show_score, settings->size, settings->delay_time};
-	uint8_t file = ti_Open(SAVE_FILE, "r+");
+	ti_var_t file = ti_Open(SAVE_FILE, "r+");
 	
 	if(!file) {
 		return false;
@@ -90,7 +90,7 @@ uint8_t writeHighScore(uint8_t highScore) {
 }
 
 int checkSaveFileAuthenticity(void) {
-	uint8_t file = 0;
+	ti_var_t file;
 	uint16_t checkSum = 0;
 	
 	file = ti_Open(SAVE_FILE, "r");
