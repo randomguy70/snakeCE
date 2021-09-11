@@ -94,14 +94,13 @@ int checkSaveFileAuthenticity(void) {
 	uint16_t checkSum = 0;
 	
 	file = ti_Open(SAVE_FILE, "r");
-	
 	if(!file) {
 		return -1;
 	}
-	
 	ti_Seek(0, SEEK_SET, file);
 	ti_Read(&checkSum, sizeof checkSum, 1, file);
 	ti_Close(file);
+	
 	if(getCheckSum(SAVE_FILE, sizeof checkSum) == checkSum) {
 		return 1;
 	}
@@ -116,8 +115,9 @@ void resetSaveFile(void) {
 		return;
 	}
 	
-	ti_Resize(7, file);
 	ti_Write((const void *)0xFF0000, 7, 1, file);
+	ti_Resize(7, file);
+	ti_SetArchiveStatus(true, file);
 	ti_Close(file);
 }
 

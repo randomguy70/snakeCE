@@ -5,22 +5,18 @@
 
 #define SAVE_FILE "SNKSAVE"
 
-// saves settings and encrypts score
 int saveSettings(struct settings* settings);
-
-// load settings and score
 int loadSettings(struct settings *settings);
 
-// stores unencrypted score into given pointer
 uint8_t getHighScore(void);
+uint8_t writeHighScore(uint8_t highScore);
 
-// checks the veracity of the save appvar
 int checkSaveFileAuthenticity(void);
 
-// wipes the save appvar (obv)
-void resetSaveFile(void);
-
-// adds up the bytes of a file starting from an offset and returns the value
+/* adds up the bytes of a file starting from an offset and returns the value */
 uint16_t getCheckSum(const char *name, int seekOffset);
+uint16_t writeCheckSum(const char *name, int seekOffset, uint16_t checkSum);
+
+void resetSaveFile(void);
 
 #endif
