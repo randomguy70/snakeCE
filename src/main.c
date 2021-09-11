@@ -71,7 +71,7 @@ int main(void) {
 		
 		handlePresses(&snake);
 		moveSnake(&snake, settings.size, &color);
-		delay(settings.delay_time);
+		// delay(settings.delay_time);
 	}
 	
 	saveSettings(&settings);
