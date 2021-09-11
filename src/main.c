@@ -14,6 +14,7 @@
 void handlePresses(struct snake *snake);
 int menu(uint8_t score);
 int displaySettings(struct settings *settings);
+void displayScore(uint8_t score);
 
 int main(void) {
 	
@@ -28,11 +29,11 @@ int main(void) {
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	color = START_OF_SHADES;
 	
-	if(!checkSaveFileAuthenticity()) {
-		resetSaveFile();
-	}
-	loadSettings(&settings);
-	
+	// if(!checkSaveFileAuthenticity()) {
+		// resetSaveFile();
+	// }
+	// loadSettings(&settings);
+	settings.show_score = true;
 	settings.size = 4;
 	settings.delay_time = 5;
 	
@@ -49,6 +50,9 @@ int main(void) {
 		gfx_FillScreen(BLACK);
 		drawSnake(&snake, settings.size);
 		drawPoint(&apple, settings.size);
+		if(settings.show_score) {
+			displayScore(snake.length-STARTING_SNAKE_LEN);
+		}
 		gfx_SwapDraw();
 		
 		if(foundApple(&apple, &snake)) {
@@ -60,7 +64,13 @@ int main(void) {
 			if(menu(snake.length-STARTING_SNAKE_LEN) == 0) {
 				saveSettings(&settings);
 				if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
-					writeHighScore(snake.length-STARTING_SNAKE_LEN);
+					// writeHighScore(snake.length-STARTING_SNAKE_LEN);
+					uint8_t file = ti_Open(SAVE_FILE, "r+");
+					uint8_t score = snake.length - STARTING_SNAKE_LEN;
+					ti_Seek(2, SEEK_SET, file);
+					ti_Write(&score, sizeof score, 1, file);
+					ti_SetArchiveStatus(true, file);
+					ti_Close(file);
 				}
 				
 				gfx_End();
@@ -72,13 +82,13 @@ int main(void) {
 		
 		handlePresses(&snake);
 		moveSnake(&snake, settings.size, &color);
-		delay(1);
+		// delay(settings.delay_time);
 	}
 	
-	saveSettings(&settings);
-	if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
-		writeHighScore(snake.length-STARTING_SNAKE_LEN);
-	}
+	// saveSettings(&settings);
+	// if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
+		// writeHighScore(snake.length-STARTING_SNAKE_LEN);
+	// }
 	gfx_End();
 	return 0;
 }
@@ -144,4 +154,10 @@ int menu(uint8_t score) {
 int displaySettings(struct settings *settings) {
 	/* XXX */
 	return settings->size;	
+}
+
+void displayScore(uint8_t score) {
+	gfx_SetTextFGColor(10);
+	gfx_SetTextXY(2, 2);
+	gfx_PrintInt((int) score, 2);
 }
