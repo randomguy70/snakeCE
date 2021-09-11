@@ -8,7 +8,7 @@ DESCRIPTION ?= "A colorful spinoff of Snake"
 COMPRESSED ?= YES
 ARCHIVED ?= YES
 
-CFLAGS ?= -Wall -Wextra -O1
+CFLAGS ?= -Wall -Wextra -O3
 # ----------------------------
 
 ifndef CEDEV

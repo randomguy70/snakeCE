@@ -27,7 +27,7 @@ void wipeSaveFile(void) {
 	ti_Close(file);
 }
 
-uint16_t getHighScore() {
+uint16_t getHighScore(void) {
 	uint16_t highScore;
 	ti_var_t file = ti_Open(SAVE_FILE, "r");
 	if(!file) {
@@ -55,7 +55,7 @@ uint16_t writeHighScore(uint16_t highScore) {
 	return highScore;
 }
 
-int checkHighScoreVeracity(void) {
+int getHighScoreVeracity(void) {
 	uint16_t highScore;
 	uint16_t highScoreChecker;
 	ti_var_t file = ti_Open(SAVE_FILE, "r");
@@ -68,5 +68,5 @@ int checkHighScoreVeracity(void) {
 	ti_Read(&highScoreChecker, sizeof highScoreChecker, 1, file);
 	ti_Close(file);
 	
-	return highScore == highScoreChecker;
+	return highScore == ((highScoreChecker+31)/83);
 }

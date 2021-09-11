@@ -14,7 +14,9 @@
 
 void handleSaveFile(void);
 void wipeSaveFile(void);
-uint16_t getHighScore();
+
+uint16_t getHighScore(void);
 uint16_t writeHighScore(uint16_t highScore);
+int getHighScoreVeracity(void);
 
 #endif

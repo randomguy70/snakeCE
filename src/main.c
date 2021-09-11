@@ -18,6 +18,9 @@ void displayScore(uint16_t score);
 
 int main(void) {
 	handleSaveFile();
+	if(!getHighScoreVeracity()) {
+		wipeSaveFile();
+	}
 	
 	struct settings settings;
 	struct snake    snake;
