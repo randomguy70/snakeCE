@@ -4,28 +4,17 @@
 
 #include "save.h"
 
-bool saveState(struct settings* settings, uint8_t score) {
-	uint16_t checkSum = 0;
-	uint16_t scoreChecker;
+int saveSettings(struct settings* settings) {
 	uint8_t settingsData[3] = {settings->show_score, settings->size, settings->delay_time};
-	uint8_t file = ti_Open(SAVE_FILE, "w+");
+	uint8_t file = ti_Open(SAVE_FILE, "r+");
 	
 	if(!file) {
 		return false;
 	}
-	
-	scoreChecker = score*57+7363;
-	
+		
 	// write data
-	ti_Seek(sizeof checkSum, SEEK_SET, file);
-	ti_Write(&score, sizeof score, 1, file);
-	ti_Write(&scoreChecker, sizeof scoreChecker, 1, file);
+	ti_Seek(5, SEEK_SET, file);
 	ti_Write(settingsData, 3, 1, file);
-	
-	// calculate and write checksum
-	checkSum = getCheckSum(SAVE_FILE, sizeof checkSum);
-	ti_Seek(0, SEEK_SET, file);
-	ti_Write(&checkSum, sizeof checkSum, 1, file);
 	
 	ti_Resize(7, file);
 	ti_SetArchiveStatus(true, file);
@@ -83,9 +72,25 @@ uint8_t getHighScore(void) {
 	return highScore;
 }
 
+uint8_t writeHighScore(uint8_t highScore) {
+	uint16_t scoreBuffer = highScore;
+	uint16_t scoreChecker = scoreBuffer*57+7363;
+	
+	ti_var_t file = ti_Open(SAVE_FILE, "r+");
+	if(!file) {
+		return 0;
+	}
+	ti_Seek(2, SEEK_SET, file);
+	ti_Write(&highScore, sizeof highScore, 1, file);
+	ti_Seek(3, SEEK_SET, file);
+	ti_Write(&scoreChecker, sizeof scoreChecker, 1, file);
+	ti_SetArchiveStatus(true, file);
+	ti_Close(file);
+	return highScore;
+}
+
 int checkSaveFileAuthenticity(void) {
 	uint8_t file = 0;
-	uint8_t fileBytes[5] = {0};
 	uint16_t checkSum = 0;
 	
 	file = ti_Open(SAVE_FILE, "r");
@@ -95,9 +100,9 @@ int checkSaveFileAuthenticity(void) {
 	}
 	
 	ti_Seek(0, SEEK_SET, file);
-	ti_Read(&checkSum, sizeof(checkSum), 1, file);
+	ti_Read(&checkSum, sizeof checkSum, 1, file);
 	ti_Close(file);
-	if(getCheckSum(SAVE_FILE, sizeof(checkSum)) == checkSum) {
+	if(getCheckSum(SAVE_FILE, sizeof checkSum) == checkSum) {
 		return 1;
 	}
 	
@@ -131,6 +136,20 @@ uint16_t getCheckSum(const char *name, int seekOffset) {
 		checkSum += dataPtr[i];
 	}
 	
+	ti_Close(file);
+	return checkSum;
+}
+
+uint16_t writeCheckSum(const char *name, int seekOffset, uint16_t checkSum) {
+	ti_var_t file;
+	
+	file = ti_Open(name, "r+");
+	if(!file) {
+		return 0;
+	}
+	
+	ti_Seek(0, SEEK_SET, file);
+	ti_Write(&checkSum, sizeof checkSum, 1, file);
 	ti_Close(file);
 	return checkSum;
 }

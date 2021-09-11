@@ -5,7 +5,7 @@
 #include "graphics.h"
 #include "vectors.h"
 
-#define STARTING_SNAKE_LEN   10
+#define STARTING_SNAKE_LEN   20
 #define STARTING_DIRECTION   4
 
 struct snake {

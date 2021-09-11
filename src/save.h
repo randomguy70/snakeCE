@@ -6,7 +6,7 @@
 #define SAVE_FILE "SNKSAVE"
 
 // saves settings and encrypts score
-bool saveState(struct settings* settings, uint8_t score);
+int saveSettings(struct settings* settings);
 
 // load settings and score
 int loadSettings(struct settings *settings);

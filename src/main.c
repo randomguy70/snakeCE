@@ -21,7 +21,7 @@ int main(void) {
 	struct snake    snake;
 	struct point    apple;
 	enum   color    color;
-
+	
 	ti_CloseAll();
 	srand(rtc_Time());
 	
@@ -29,9 +29,9 @@ int main(void) {
 	gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
 	color = START_OF_SHADES;
 	
-	if(!checkSaveFileAuthenticity()) {
-		resetSaveFile();
-	}
+	//if(!checkSaveFileAuthenticity()) {
+	//	resetSaveFile();
+	//}
 	loadSettings(&settings);
 	
 	settings.size = 4;
@@ -59,7 +59,7 @@ int main(void) {
 		
 		if(snakeDied(&snake)) {
 			if(menu(snake.length-STARTING_SNAKE_LEN) == 0) {
-				saveState(&settings, snake.length);
+				saveState(&settings, snake.length-STARTING_SNAKE_LEN);
 				gfx_End();
 				return 0;
 			}
