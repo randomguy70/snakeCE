@@ -22,7 +22,6 @@ int main(void) {
 	struct point    apple;
 	enum   color    color;
 	
-	ti_CloseAll();
 	srand(rtc_Time());
 	
 	gfx_Begin();
@@ -59,7 +58,10 @@ int main(void) {
 		
 		if(snakeDied(&snake)) {
 			if(menu(snake.length-STARTING_SNAKE_LEN) == 0) {
-				saveState(&settings, snake.length-STARTING_SNAKE_LEN);
+				saveSettings(&settings);
+				if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
+					writeHighScore(snake.length-STARTING_SNAKE_LEN);
+				}
 				gfx_End();
 				return 0;
 			}
@@ -72,7 +74,10 @@ int main(void) {
 		delay(settings.delay_time);
 	}
 	
-	saveState(&settings, snake.length-STARTING_SNAKE_LEN);
+	saveSettings(&settings);
+	if(getHighScore() < snake.length-STARTING_SNAKE_LEN) {
+		writeHighScore(snake.length-STARTING_SNAKE_LEN);
+	}
 	gfx_End();
 	return 0;
 }
